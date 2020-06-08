@@ -1,6 +1,6 @@
 /*************************************************************
 
-Copyright (c) 2006, Fernando Herrero Carrón
+Copyright (c) 2006, Fernando Herrero Carrón 
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -8,14 +8,14 @@ modification, are permitted provided that the following conditions are
 met:
 
 	* Redistributions of source code must retain the above copyright
-	  notice, this list of conditions and the following disclaimer.
+	  notice, this list of conditions and the following disclaimer.  
 	* Redistributions in binary form must reproduce the above
 	  copyright notice, this list of conditions and the following
 	  disclaimer in the documentation and/or other materials provided
-	  with the distribution.
+	  with the distribution. 
 	* Neither the name of the author nor the names of his contributors
 	  may be used to endorse or promote products derived from this
-	  software without specific prior written permission.
+	  software without specific prior written permission. 
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,31 +44,14 @@ $Id: HindmarshRoseModel.h 203 2007-06-26 14:46:34Z elferdo $
  * mu = 0.0021
  * S = 4
  */
-
+ 
 template <typename Precission>
 class HindmarshRoseModel  : public NeuronBase<Precission>{
-
-
 public:
 	typedef Precission precission_t;
-
+	
 	enum variable {x, y, z, n_variables};
 	enum parameter {e, mu, S, n_parameters};
-
-  struct ConstructorArgs
-	{
-	    Precission params[n_parameters];
-	};
-
-protected:
-  Precission m_variables[n_variables];
-  Precission m_parameters[n_parameters];
-
-public:
-  HindmarshRoseModel(ConstructorArgs const &args)
-  {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
 
 	void eval(const Precission * const vars, Precission * const params, Precission * const incs) const
 	{
