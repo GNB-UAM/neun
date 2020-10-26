@@ -1,21 +1,37 @@
 /*************************************************************
 
 Copyright (c) 2006, Fernando Herrero Carrón
+<<<<<<< HEAD
+=======
+          (c) 2016, Ángel Lareo <angel.lareo@gmail.com>
+>>>>>>> tmp
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
 met:
 
-	* Redistributions of source code must retain the above copyright
-	  notice, this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above
-	  copyright notice, this list of conditions and the following
-	  disclaimer in the documentation and/or other materials provided
-	  with the distribution.
-	* Neither the name of the author nor the names of his contributors
-	  may be used to endorse or promote products derived from this
-	  software without specific prior written permission.
+<<<<<<< HEAD
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+        * Redistributions in binary form must reproduce the above
+          copyright notice, this list of conditions and the following
+          disclaimer in the documentation and/or other materials provided
+          with the distribution.
+        * Neither the name of the author nor the names of his contributors
+          may be used to endorse or promote products derived from this
+          software without specific prior written permission.
+=======
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+        * Redistributions in binary form must reproduce the above
+          copyright notice, this list of conditions and the following
+          disclaimer in the documentation and/or other materials provided
+          with the distribution.
+        * Neither the name of the author nor the names of his contributors
+          may be used to endorse or promote products derived from this
+          software without specific prior written permission.
+>>>>>>> tmp
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -36,6 +52,7 @@ $Id: HindmarshRoseModel.h 203 2007-06-26 14:46:34Z elferdo $
 #define HINDMARSHROSEMODEL_H_
 
 #include <cmath>
+
 #include "../include/NeuronBase.h"
 
 /**
@@ -46,36 +63,33 @@ $Id: HindmarshRoseModel.h 203 2007-06-26 14:46:34Z elferdo $
  */
 
 template <typename Precission>
-class HindmarshRoseModel  : public NeuronBase<Precission>{
+class HindmarshRoseModel : public NeuronBase<Precission> {
+ public:
+  typedef Precission precission_t;
 
+  enum variable { x, y, z, n_variables };
+  enum parameter { e, mu, S, n_parameters };
 
-public:
-	typedef Precission precission_t;
+  struct ConstructorArgs {
+    Precission params[n_parameters];
+  };
 
-	enum variable {x, y, z, n_variables};
-	enum parameter {e, mu, S, n_parameters};
-
-  struct ConstructorArgs
-	{
-	    Precission params[n_parameters];
-	};
-
-protected:
+ protected:
   Precission m_variables[n_variables];
   Precission m_parameters[n_parameters];
 
-public:
-  HindmarshRoseModel(ConstructorArgs const &args)
-  {
+ public:
+  HindmarshRoseModel(ConstructorArgs const &args) {
     std::copy(args.params, args.params + n_parameters, m_parameters);
   }
 
-	void eval(const Precission * const vars, Precission * const params, Precission * const incs) const
-	{
-		incs[x] = vars[y] + 3.0 * vars[x] * vars[x] - vars[x] * vars[x] * vars[x] - vars[z] + params[e] + SYNAPTIC_INPUT;
-		incs[y] = 1 - 5.0 * vars[x] * vars[x] - vars[y];
-		incs[z] = params[mu] * (-vars[z] + params[S] * (vars[x] + 1.6));
-	}
+  void eval(const Precission *const vars, Precission *const params,
+            Precission *const incs) const {
+    incs[x] = vars[y] + 3.0 * vars[x] * vars[x] - vars[x] * vars[x] * vars[x] -
+              vars[z] + params[e] + SYNAPTIC_INPUT;
+    incs[y] = 1 - 5.0 * vars[x] * vars[x] - vars[y];
+    incs[z] = params[mu] * (-vars[z] + params[S] * (vars[x] + 1.6));
+  }
 };
 
 #endif /*HINDMARSHROSEMODEL_H_*/
