@@ -39,7 +39,6 @@ $Id: IntegratedSystemWrapper.h 196 2007-06-08 09:33:27Z elferdo $
 #include <boost/concept_check.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
-
 #include "../concepts/IntegratableSystemConcept.h"
 #include "../concepts/IntegratorConcept.h"
 #endif  //__AVR_ARCH__
@@ -53,41 +52,41 @@ $Id: IntegratedSystemWrapper.h 196 2007-06-08 09:33:27Z elferdo $
  * \param Integrator The integrator class to use
  */
 
-template <typename System, typename Integrator>
-class IntegratedSystemWrapper : public DynamicalSystemWrapper<System> {
-#ifndef __AVR_ARCH__
-  BOOST_CLASS_REQUIRE(DynamicalSystemWrapper<System>, ,
-                      IntegratableSystemConcept);
-  BOOST_CLASS_REQUIRE(Integrator, , IntegratorConcept);
-#endif  //__AVR_ARCH__
+template <typename Wrapee, typename Integrator>
+class IntegratedSystemWrapper : public DynamicalSystemWrapper<Wrapee> {
+  //#ifndef __AVR_ARCH__
+  //	BOOST_CLASS_REQUIRE(DynamicalSystemWrapper<Wrapee>, ,
+  // IntegratableSystemConcept); 	BOOST_CLASS_REQUIRE(Integrator, ,
+  // IntegratorConcept); #endif //__AVR_ARCH__
 
  public:
-  typedef typename System::precission_t precission_t;
-  typedef typename System::variable variable;
-  typedef typename System::parameter parameter;
-  typedef typename System::ConstructorArgs ConstructorArgs;
+  typedef typename Wrapee::precission_t precission_t;
+  typedef typename Wrapee::variable variable;
+  typedef typename Wrapee::parameter parameter;
+  typedef typename Wrapee::ConstructorArgs ConstructorArgs;
 
   IntegratedSystemWrapper(ConstructorArgs &&args)
-      : DynamicalSystemWrapper<System>(args) {}
+      : DynamicalSystemWrapper<Wrapee>(args) {}
 
   IntegratedSystemWrapper(ConstructorArgs &args)
-      : DynamicalSystemWrapper<System>(args) {}
+      : DynamicalSystemWrapper<Wrapee>(args) {}
 
-  void restart() { System::restart(); }
+  void restart() { Wrapee::restart(); }
 
   void step(precission_t h) {
     /* Allow system specific step actions */
 
-    System::pre_step(h);
+    Wrapee::pre_step(h);
 
-    Integrator::step(*this, h, System::m_variables, System::m_parameters);
+    Integrator::step(*this, h, Wrapee::m_variables, Wrapee::m_parameters);
+    Wrapee::m_synaptic_input = 0;
 
-    System::post_step(h);
+    Wrapee::post_step(h);
   }
 
-  void add_synaptic_input(precission_t i) { System::m_synaptic_input += i; }
+  void add_synaptic_input(precission_t i) { Wrapee::m_synaptic_input += i; }
 
-  precission_t get_synaptic_input() const { return System::m_synaptic_input; }
+  precission_t get_synaptic_input() const { return Wrapee::m_synaptic_input; }
 };
 
 #endif /*INTEGRATEDSYSTEMWRAPPER_H_*/
