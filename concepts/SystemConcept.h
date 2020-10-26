@@ -36,33 +36,34 @@ $Id: SystemConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #define SYSTEMCONCEPT_H_
 
 #include <boost/concept_check.hpp>
+
 #include "ModelConcept.h"
 
 template <typename System>
 struct SystemConcept {
-//	BOOST_CLASS_REQUIRE(System, ,ModelConcept);
+  BOOST_CLASS_REQUIRE(System, , ModelConcept);
 
-	typename System::precission_t value;
-	typename System::variable v;
-	typename System::parameter p;
+  typename System::precission_t value;
+  typename System::variable v;
+  typename System::parameter p;
 
-	System system;
-	const System const_system;
+  System system;
+  const System const_system;
 
-	int n_variables, n_parameters;
+  int n_variables, n_parameters;
 
-	void constraints() {
-//		typename System::ConstructorArgs args;
-//		args[p] = value;
+  void constraints() {
+    //		typename System::ConstructorArgs args;
+    //		args[p] = value;
 
-//		System csystem(args);
+    //		System csystem(args);
 
-		value = const_system.get(v);
-		value = const_system.get(p);
+    value = const_system.get(v);
+    value = const_system.get(p);
 
-		system.set(v, value);
-		system.set(p, value);
-	}
+    system.set(v, value);
+    system.set(p, value);
+  }
 };
 
 /**
