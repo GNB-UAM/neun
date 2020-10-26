@@ -35,7 +35,9 @@ $Id: HindmarshRoseModel.h 203 2007-06-26 14:46:34Z elferdo $
 #ifndef IZHIKEVICHMODEL_H_
 #define IZHIKEVICHMODEL_H_
 
+#include <algorithm>
 #include <cmath>
+
 #include "../include/NeuronBase.h"
 
 /**

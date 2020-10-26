@@ -1,7 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2006, Fernando Herrero Carrón
-							2016, Ángel Lareo Fernández
+              2020, Angel Lareo <angel.lareo@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -34,10 +34,10 @@ $Id$
 *************************************************************/
 
 #include <boost/concept_check.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
-#include "DynamicalSystemWrapper.h"
+#include <type_traits>
+
 #include "../concepts/NeuronConcept.h"
+#include "DynamicalSystemWrapper.h"
 
 #ifndef DIFFERENTIALNEURONWRAPPER_H_
 #define DIFFERENTIALNEURONWRAPPER_H_
@@ -50,36 +50,26 @@ $Id$
  */
 
 template <typename Wrapee, typename Integrator>
-class DifferentialNeuronWrapper : public DynamicalSystemWrapper<Wrapee>
-{
-//	BOOST_CLASS_REQUIRE(Derived, , NeuronConcept);
-public:
+class DifferentialNeuronWrapper : public DynamicalSystemWrapper<Wrapee> {
+  //	BOOST_CLASS_REQUIRE(Derived, , NeuronConcept);
+ public:
+  typedef typename Wrapee::precission_t precission_t;
+  typedef typename Wrapee::variable variable;
+  typedef typename Wrapee::parameter parameter;
+  typedef typename Wrapee::ConstructorArgs ConstructorArgs;
 
-	typedef typename Wrapee::precission_t precission_t;
-	typedef typename Wrapee::variable variable;
-	typedef typename Wrapee::parameter parameter;
-	typedef typename Wrapee::ConstructorArgs ConstructorArgs;
+  DifferentialNeuronWrapper(ConstructorArgs &args)
+      : DynamicalSystemWrapper<Wrapee>(args) {}
 
-	DifferentialNeuronWrapper(ConstructorArgs &args) : DynamicalSystemWrapper<Wrapee>(args)
-	{
-	}
+  void step(precission_t h) {
+    Integrator::step(*this, h, Wrapee::m_variables, Wrapee::m_parameters);
 
-	void step(precission_t h)
-	{
-		Integrator::step(*this, h, Wrapee::m_variables,  Wrapee::m_parameters);
+    Wrapee::m_synaptic_input = 0;
+  }
 
-		Wrapee::m_synaptic_input = 0;
-	}
+  void add_synaptic_input(precission_t i) { Wrapee::m_synaptic_input += i; }
 
-	void add_synaptic_input(precission_t i)
-	{
-		Wrapee::m_synaptic_input += i;
-	}
-
-	precission_t get_synaptic_input() const
-	{
-		return Wrapee::m_synaptic_input;
-	}
+  precission_t get_synaptic_input() const { return Wrapee::m_synaptic_input; }
 };
 
 #endif /*DIFFERENTIALNEURONWRAPPER_H_*/

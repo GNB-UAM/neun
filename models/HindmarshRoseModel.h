@@ -1,17 +1,13 @@
 /*************************************************************
 
 Copyright (c) 2006, Fernando Herrero Carrón
-<<<<<<< HEAD
-=======
-          (c) 2016, Ángel Lareo <angel.lareo@gmail.com>
->>>>>>> tmp
+          (c) 2016-2020, Ángel Lareo <angel.lareo@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
 met:
 
-<<<<<<< HEAD
         * Redistributions of source code must retain the above copyright
           notice, this list of conditions and the following disclaimer.
         * Redistributions in binary form must reproduce the above
@@ -21,17 +17,6 @@ met:
         * Neither the name of the author nor the names of his contributors
           may be used to endorse or promote products derived from this
           software without specific prior written permission.
-=======
-        * Redistributions of source code must retain the above copyright
-          notice, this list of conditions and the following disclaimer.
-        * Redistributions in binary form must reproduce the above
-          copyright notice, this list of conditions and the following
-          disclaimer in the documentation and/or other materials provided
-          with the distribution.
-        * Neither the name of the author nor the names of his contributors
-          may be used to endorse or promote products derived from this
-          software without specific prior written permission.
->>>>>>> tmp
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -51,6 +36,7 @@ $Id: HindmarshRoseModel.h 203 2007-06-26 14:46:34Z elferdo $
 #ifndef HINDMARSHROSEMODEL_H_
 #define HINDMARSHROSEMODEL_H_
 
+#include <algorithm>
 #include <cmath>
 
 #include "../include/NeuronBase.h"

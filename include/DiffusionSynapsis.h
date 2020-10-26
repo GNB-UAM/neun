@@ -1,7 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2006-2010 Fernando Herrero Carrón
-                          2017, Angel Lareo Fernández
+              2017-2020, Angel Lareo <angel.lareo@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,7 @@ $Id: DiffusionSynapsis.h 337 2008-01-29 15:46:19Z elferdo $
 
 #ifndef __AVR_ARCH__
 #include <boost/concept_check.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
+#include <type_traits>
 
 #include "../concepts/IntegratorConcept.h"
 #include "../concepts/NeuronConcept.h"
@@ -63,7 +62,7 @@ class DiffusionSynapsis
   BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
   BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
   BOOST_CLASS_REQUIRE(TIntegrator, , IntegratorConcept);
-  BOOST_STATIC_ASSERT(boost::is_floating_point<precission>::value);
+  static_assert(std::is_floating_point<precission>::value);
 #endif  //__AVR_ARCH__
 
   precission m_release_time;

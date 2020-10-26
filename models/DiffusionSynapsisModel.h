@@ -36,9 +36,8 @@ $Id: DiffusionSynapsisModel.h 196 2007-06-08 09:33:27Z elferdo $
 #define DIFFUSIONSYNAPSISMODEL_H_
 
 #ifndef __AVR_ARCH__
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
-#endif //__AVR_ARCH__
+#include <type_traits>
+#endif  //__AVR_ARCH__
 
 /**
  * @brief Implements a synapsis based on (Destexhe et al. 1994)
@@ -46,32 +45,39 @@ $Id: DiffusionSynapsisModel.h 196 2007-06-08 09:33:27Z elferdo $
 template <typename precission = double>
 class DiffusionSynapsisModel {
 #ifndef __AVR_ARCH__
-	BOOST_STATIC_ASSERT(boost::is_floating_point<precission>::value);
-#endif //__AVR_ARCH__
+  static_assert(std::is_floating_point<precission>::value);
+#endif  //__AVR_ARCH__
 
-public:
+ public:
+  enum variable { r, i, n_variables };
+  enum parameter {
+    alpha,
+    beta,
+    threshold,
+    esyn,
+    gsyn,
+    T,
+    max_release_time,
+    n_parameters
+  };
 
-	enum variable {r, i, n_variables};
-	enum parameter {alpha, beta, threshold, esyn, gsyn, T, max_release_time, n_parameters};
+  typedef precission precission_t;
 
-	typedef precission precission_t;
+ protected:
+  bool m_release;
 
-protected:
-	bool m_release;
+ public:
+  DiffusionSynapsisModel() : m_release(false) {}
 
-public:
-	DiffusionSynapsisModel() : m_release(false)
-	{
-	}
-
-	void eval(const precission * const vars, const precission * const params, precission * const incs) const
-	{
-		if(m_release){
-			incs[r] = params[alpha] * params[T] * (1 - vars[r]) - params[beta] * vars[r];
-		} else {
-			incs[r] = - params[beta] * vars[r];
-		}
-	}
+  void eval(const precission* const vars, const precission* const params,
+            precission* const incs) const {
+    if (m_release) {
+      incs[r] =
+          params[alpha] * params[T] * (1 - vars[r]) - params[beta] * vars[r];
+    } else {
+      incs[r] = -params[beta] * vars[r];
+    }
+  }
 };
 
 #endif /*DIFFUSIONSYNAPSISMODEL_H_*/

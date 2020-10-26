@@ -1,6 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2007, Fernando Herrero Carrón
+              2020, Angel Lareo <angel.lareo@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,15 +37,14 @@ $Id: NeuronBase.h 196 2007-06-08 09:33:27Z elferdo $
 #define NEURONBASE_H_
 
 #ifndef __AVR_ARCH__
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
+#include <type_traits>
 #endif  //__AVR_ARCH__
 #define SYNAPTIC_INPUT NeuronBase<Precission>::m_synaptic_input
 
 template <typename Precission>
 class NeuronBase {
 #ifndef __AVR_ARCH__
-  BOOST_STATIC_ASSERT(boost::is_floating_point<Precission>::value);
+  static_assert(std::is_floating_point<Precission>::value);
 #endif  //__AVR_ARCH__
 
  protected:

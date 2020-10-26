@@ -1,6 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2006, Fernando Herrero Carrón
+              2020, Angel Lareo <angel.lareo@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -37,10 +38,10 @@ $Id: SigmoidalDirectSynapsis.h 184 2007-06-04 11:26:12Z elferdo $
 
 #ifndef __AVR_ARCH__
 #include <boost/concept_check.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
+#include <type_traits>
+
 #include "../concepts/NeuronConcept.h"
-#endif //__AVR_ARCH__
+#endif  //__AVR_ARCH__
 
 /**
  * Implements a sigmoidal synapsis
@@ -49,57 +50,55 @@ $Id: SigmoidalDirectSynapsis.h 184 2007-06-04 11:26:12Z elferdo $
 template <typename TNode1, typename TNode2, typename precission = double>
 class SigmoidalDirectSynapsis {
 #ifndef __AVR_ARCH__
-	BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
-	BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
-	BOOST_STATIC_ASSERT(boost::is_floating_point<precission>::value);
-#endif //__AVR_ARCH__
+  BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
+  BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
+  static_assert(std::is_floating_point<precission>::value);
+#endif  //__AVR_ARCH__
 
-public:
-	enum parameter {g, t, sigma, shift, n_parameters};
+ public:
+  enum parameter { g, t, sigma, shift, n_parameters };
 
-private:
+ private:
+  void operator=(SigmoidalDirectSynapsis &s) {}
 
-	void operator=(SigmoidalDirectSynapsis &s)
-	{
-	}
+  precission m_parameters[n_parameters];
 
-	precission m_parameters[n_parameters];
+  TNode1 const &m_n1;
+  TNode2 &m_n2;
 
-	TNode1 const &m_n1;
-	TNode2 &m_n2;
+  const typename TNode1::variable m_n1_variable;
 
-	const typename TNode1::variable m_n1_variable;
+ public:
+  SigmoidalDirectSynapsis(TNode1 const &n1, typename TNode1::variable v,
+                          TNode2 &n2, precission pg = 1, precission pt = 0,
+                          precission psigma = 1, precission pshift = 0)
+      : m_n1(n1), m_n2(n2), m_n1_variable(v) {
+    m_parameters[g] = pg;
+    m_parameters[t] = pt;
+    m_parameters[sigma] = psigma;
+    m_parameters[shift] = pshift;
+  }
 
-public:
-	SigmoidalDirectSynapsis(TNode1 const &n1, typename TNode1::variable v, TNode2 &n2, precission pg = 1, precission pt = 0, precission psigma = 1, precission pshift = 0) : m_n1(n1), m_n2(n2), m_n1_variable(v)
-	{
-		m_parameters[g] = pg;
-		m_parameters[t] = pt;
-		m_parameters[sigma] = psigma;
-		m_parameters[shift] = pshift;
-	}
+  SigmoidalDirectSynapsis(TNode1 const &n1, TNode2 &n2,
+                          SigmoidalDirectSynapsis const &s)
+      : m_n1(n1), m_n2(n2), m_n1_variable(s.m_n1_variable) {
+    m_parameters[g] = s.m_parameters[g];
+    m_parameters[t] = s.m_parameters[t];
+    m_parameters[sigma] = s.m_parameters[sigma];
+    m_parameters[shift] = s.m_parameters[shift];
+  }
 
-  SigmoidalDirectSynapsis(TNode1 const &n1, TNode2 &n2, SigmoidalDirectSynapsis const &s) : m_n1(n1),
-							      m_n2(n2),
-							      m_n1_variable(s.m_n1_variable)
-	{
-		m_parameters[g] = s.m_parameters[g];
-		m_parameters[t] = s.m_parameters[t];
-		m_parameters[sigma] = s.m_parameters[sigma];
-		m_parameters[shift] = s.m_parameters[shift];
-	}
+  void step(precission h) {
+    //		const precission value = m_parameters[g] * (m_parameters[shift]
+    //+ tanh(m_parameters[sigma] * m_n1.get_variable(m_n1_variable) -
+    // m_parameters[t]));
 
+    const precission value = m_n1.get(m_n1_variable);
 
-	void step(precission h)
-	{
-//		const precission value = m_parameters[g] * (m_parameters[shift] + tanh(m_parameters[sigma] * m_n1.get_variable(m_n1_variable) - m_parameters[t]));
-
-		const precission value = m_n1.get(m_n1_variable);
-
-		if(value > m_parameters[t]){
-			m_n2.add_synaptic_input(m_parameters[g]);
-		}
-	}
+    if (value > m_parameters[t]) {
+      m_n2.add_synaptic_input(m_parameters[g]);
+    }
+  }
 };
 
 #endif /*SIGMOIDALDIRECTSYNAPSIS_H_*/
