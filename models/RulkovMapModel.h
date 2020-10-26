@@ -72,8 +72,8 @@ public:
 
 	void eval(const Precission * const vars, Precission * const params, Precission * const incs) const
 	{
-		incs[x] = f(params[alpha], vars[x], vars[y] + params[betae] * SYNAPTIC_INPUT);
-		incs[y] = vars[y] + params[mu] * (-(vars[x] + 1) + params[sigma] + params[sigmae] * SYNAPTIC_INPUT);
+		incs[x] = f(params[alpha], vars[x], vars[y] + params[betae] /*0*/ * SYNAPTIC_INPUT);
+		incs[y] = vars[y] + params[mu] * (-(vars[x] + 1) + params[sigma] + params[sigmae] /*1*/ * SYNAPTIC_INPUT);
 	}
 };
 
