@@ -1,7 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2020, Ángel Lareo Fernández
-                                        Alicia Garrido Peña
+                    Alicia Garrido Peña
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define VAVOULISMODEL_H_
 
 #include <cmath>
+
 #include "../include/NeuronBase.h"
 
 template <typename Precission>

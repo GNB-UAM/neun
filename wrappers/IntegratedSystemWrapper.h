@@ -29,7 +29,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-$Id: IntegratedSystemWrapper.h 196 2007-06-08 09:33:27Z elferdo $
 *************************************************************/
 
 #ifndef INTEGRATEDSYSTEMWRAPPER_H_
@@ -39,6 +38,7 @@ $Id: IntegratedSystemWrapper.h 196 2007-06-08 09:33:27Z elferdo $
 #include <boost/concept_check.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
+
 #include "../concepts/IntegratableSystemConcept.h"
 #include "../concepts/IntegratorConcept.h"
 #endif  //__AVR_ARCH__
