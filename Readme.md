@@ -2,6 +2,7 @@
 
 ![Boost v1.45 dependency](https://img.shields.io/badge/boost-v1.45-blue?style=flat-square)
 ![CMake v2.8 dependency](https://img.shields.io/badge/cmake-v2.8-blue?style=flat-square)
+![Build Status](https://img.shields.io/travis/angellareo/neun/master.svg?style=flat-square)
 
 A library for the simulation of dynamical systems, aimed to model neural
 networks with high performance. It is written in an object oriented fashion
@@ -68,7 +69,7 @@ Currently implemented neuron models:
  - Rowat and Selverston (Rowat and Selverston, 1997)
  - Rulkov Map model (Nikolai F. Rulkov, 2002)
  - Bistable Rulkov Map model (Nikolai F. Rulkov, 2002)
- - Vavoulis model
+ - Vavoulis model (Vavoulis et al., 2007)
 
 ### Synapsis models
 
@@ -77,4 +78,3 @@ Currently implemented synapsis models are:
  - Electrical synapsis
  - Conductance-based direct synapsis
  - Sigmoidal direct synapsis
-
