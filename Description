@@ -1,0 +1,10 @@
+A library for the simulation of dynamical systems, aimed to model neural
+networks with high performance. It is written in an object oriented fashion
+with heavily templated C++.
+
+To build it, just type:
+> mkdir build && cd build
+> cmake ..
+
+To install:
+> make install

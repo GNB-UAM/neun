@@ -52,7 +52,7 @@ typedef DifferentialNeuronWrapper<HHModel, Integrator> Neuron;
 
 ### Integrators
 
-Actual integrators are:
+Currently implemented integrators are:
  - Stepper
  - Euler
  - RungeKutta4
