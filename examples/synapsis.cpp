@@ -46,19 +46,19 @@ int main(int argc, char **argv) {
   HH::ConstructorArgs args;
 
   // Set the parameter values
-  args.cm = 1 * 7.854e-3;
-  args.vna = 50;
-  args.vk = -77;
-  args.vl = -54.387;
-  args.gna = 120 * 7.854e-3;
-  args.gk = 36 * 7.854e-3;
-  args.gl = 0.3 * 7.854e-3;
+  args.params[HH::cm] = 1 * 7.854e-3;
+  args.params[HH::vna] = 50;
+  args.params[HH::vk] = -77;
+  args.params[HH::vl] = -54.387;
+  args.params[HH::gna] = 120 * 7.854e-3;
+  args.params[HH::gk] = 36 * 7.854e-3;
+  args.params[HH::gl] = 0.3 * 7.854e-3;
 
   // Initialize neuron models
   HH h1(args), h2(args);
 
   // Set initial value of V in neuron n1
-  h1.set_variable(HH::v, -75);
+  h1.set(HH::v, -75);
 
   // Initialize a synapsis between the neurons
   Synapsis s(h1, HH::v, h2, HH::v, -0.002, -0.002);
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
 
   // Perform the simulation
   double simulation_time = 1000;
-  for (double time = 0; t < simulation_time; time += step) {
+  for (double time = 0; time < simulation_time; time += step) {
     s.step(step);
 
     // Provide an external current input to both neurons
@@ -78,8 +78,8 @@ int main(int argc, char **argv) {
     h1.step(step);
     h2.step(step);
 
-    printf("%f %f %f %f\n", time, h1.get_variable(HH::v),
-           h2.get_variable(HH::v), s.get_variable(Synapsis::i1));
+    printf("%f %f %f %f\n", time, h1.get(HH::v), h2.get(HH::v),
+           s.get(Synapsis::i1));
   }
 
   return 0;

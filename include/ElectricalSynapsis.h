@@ -53,7 +53,7 @@ template <typename TNode1, typename TNode2, typename precission = double>
 class ElectricalSynapsis {
   BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
   BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
-  static_assert(is_floating_point<precission>::value);
+  static_assert(std::is_floating_point<precission>::value);
 
  public:
   enum variable { i1, i2, n_variables };
@@ -103,19 +103,13 @@ class ElectricalSynapsis {
     m_n2.add_synaptic_input(m_variables[i2]);
   }
 
-  precission get_variable(variable var) const { return m_variables[var]; }
+  precission_t get(variable var) const { return m_variables[var]; }
 
-  void set_variable(variable var, precission value) {
-    m_variables[var] = value;
-  }
+  void set(variable var, precission_t value) { m_variables[var] = value; }
 
-  precission get_parameter(parameter param) const {
-    return m_parameters[param];
-  }
+  precission_t get(parameter param) const { return m_parameters[param]; }
 
-  void set_parameter(parameter param, precission value) {
-    m_parameters[param] = value;
-  }
+  void set(parameter param, precission_t value) { m_parameters[param] = value; }
 
   void save(std::ostream &os) {
     for (int i = 0; i < n_variables; i++) {

@@ -45,22 +45,22 @@ int main(int argc, char **argv) {
   Neuron::ConstructorArgs args;
 
   // Set the parameter values
-  args.cm = 1 * 7.854e-3;
-  args.vna = 50;
-  args.vk = -77;
-  args.vl = -54.387;
-  args.gna = 120 * 7.854e-3;
-  args.gk = 36 * 7.854e-3;
-  args.gl = 0.3 * 7.854e-3;
+  args.params[Neuron::cm] = 1 * 7.854e-3;
+  args.params[Neuron::vna] = 50;
+  args.params[Neuron::vk] = -77;
+  args.params[Neuron::vl] = -54.387;
+  args.params[Neuron::gna] = 120 * 7.854e-3;
+  args.params[Neuron::gk] = 36 * 7.854e-3;
+  args.params[Neuron::gl] = 0.3 * 7.854e-3;
 
   // Initialize a new neuron model
   Neuron n(args);
 
   // You can also initialize the variables of the neuron model to a given value
-  n.set_variable(Neuron::v, -80);
-  n.set_variable(Neuron::m, 0.1);
-  n.set_variable(Neuron::n, 0.7);
-  n.set_variable(Neuron::h, 0.01);
+  n.set(Neuron::v, -80);
+  n.set(Neuron::m, 0.1);
+  n.set(Neuron::n, 0.7);
+  n.set(Neuron::h, 0.01);
 
   // Set the integration step
   const double step = 0.001;
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   for (double time = 0; time < simulation_time; time += step) {
     n.step(step);
 
-    printf("%f %f\n", time, n.get_variable(Neuron::v));
+    printf("%f %f\n", time, n.get(Neuron::v));
   }
 
   return 0;
