@@ -32,10 +32,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 *************************************************************/
 
-#include <NeuralNetworks/include/DifferentialNeuronWrapper.h>
-#include <NeuralNetworks/include/ElectricalSynapsis.h>
-#include <NeuralNetworks/include/HodgkinHuxleyModel.h>
-#include <NeuralNetworks/include/RungeKutta4.h>
+#include <DifferentialNeuronWrapper.h>
+#include <ElectricalSynapsis.h>
+#include <HodgkinHuxleyModel.h>
+#include <RungeKutta4.h>
 
 typedef RungeKutta4 Integrator;
 typedef DifferentialNeuronWrapper<HodgkinHuxleyModel<double>, Integrator> HH;
