@@ -45,30 +45,30 @@ class VavoulisModel : public NeuronBase<Precission> {
 
   // clang-format off
   enum variable { v, va, p, q, h, n, n_variables };
-  enum parameter { t, tau_p, tau_q, g_eca, g_ecs, n_parameters };
+  enum parameter { n_type, tau_p, tau_q, g_eca, g_ecs, n_parameters };
   enum type {so, n1m, n2v, n3t, n_types};
   // clang-format on
 
  protected:
-  Precission il(Precission v) const { v + 67; }
+  Precission il(Precission v) const { return v + 67; }
 
   Precission ix(type t, Precission v, Precission p, Precission q) const {
-    switch (t) {
-      case so:
-        return 0;
-        break;
-      case n1m:
-        return 200 * p * p * p * (v + 30);
-        break;
-      case n2v:
-        return 2 * p * p * p * q * (v - 55);
-        break;
-      case n3t:
+    // switch (t) {
+    //   case so:
+    //     return 0;
+    //     break;
+    //   case n1m:
+    //     return 200 * p * p * p * (v + 30);
+    //     break;
+    //   case n2v:
+    //     return 2 * p * p * p * q * (v - 55);
+    //     break;
+    //   case n3t:
         return 3.27 * p * p * p * q * (v - 80);
-        break;
-      default:
-        return 0;
-    }
+    //     break;
+    //   default:
+    //     return 0;
+    // }
   }
 
   // iecs(v,va,g_ecs) - ieca(va,v,g_eca)
@@ -100,15 +100,17 @@ class VavoulisModel : public NeuronBase<Precission> {
   }
 
   Precission incr_h(Precission h, Precission va) const {
+    Precission aux = (-61.3 - va) / 22.7;
     Precission tau_h =
-        1.1 + 7.2 * exp(-((-61.3 - va) / 22.7) * ((-61.3 - va) / 22.7));
+        1.1 + 7.2 * exp(-(aux * aux));
     Precission hinf = 1 / (1 + exp((-55.2 - va) / -7.1));
     return (hinf - h) / tau_h;
   }
 
   Precission incr_n(Precission n, Precission va) const {
+    Precission aux = (-61 - va) / 54.3;
     Precission tau_n =
-        1.1 + 4.6 * exp(-((-61 - va) / 54.3) * ((-61 - va) / 54.3));
+        1.1 + 4.6 * exp(-(aux * aux));
     Precission ninf = 1 / (1 + exp((-30 - va) / -17.4));
     return (ninf - n) / tau_n;
   }
@@ -137,14 +139,14 @@ class VavoulisModel : public NeuronBase<Precission> {
   void eval(const Precission *const vars, Precission *const params,
             Precission *const incs) const {
     incs[v] = (-SYNAPTIC_INPUT - il(vars[v]) -
-                  ix((type)params[t], vars[v], vars[p], vars[q]) -
+                  ix((type)params[n_type], vars[v], vars[p], vars[q]) -
                   iec(vars[v], vars[va], vars[g_ecs]))/10;
 
     incs[va] = (-il(vars[v]) - inat(vars[va], vars[h]) - ik(vars[va], vars[n]) -
                    iec(vars[va], vars[v], vars[g_eca]))/10;
 
-    incs[p] = incr_p((type)params[t], vars[p], vars[v], params[tau_p]);
-    incs[q] = incr_q((type)params[t], vars[q], vars[v], params[tau_q]);
+    incs[p] = incr_p((type)params[n_type], vars[p], vars[v], params[tau_p]);
+    incs[q] = incr_q((type)params[n_type], vars[q], vars[v], params[tau_q]);
 
     incs[h] = incr_h(vars[h], vars[va]);
     incs[n] = incr_n(vars[n], vars[va]);
