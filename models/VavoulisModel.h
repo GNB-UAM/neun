@@ -1,7 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2020, Ángel Lareo Fernández
-                    Alicia Garrido Peña
+                                        Alicia Garrido Peña
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define VAVOULISMODEL_H_
 
 #include <cmath>
-
 #include "../include/NeuronBase.h"
 
 template <typename Precission>
@@ -103,14 +102,14 @@ class VavoulisModel : public NeuronBase<Precission> {
   Precission incr_h(Precission h, Precission va) const {
     Precission tau_h =
         1.1 + 7.2 * exp(-((-61.3 - va) / 22.7) * ((-61.3 - va) / 22.7));
-    Precission hinf = 1 / (1 + exp((-55.2 - v) / -7.1));
+    Precission hinf = 1 / (1 + exp((-55.2 - va) / -7.1));
     return (hinf - h) / tau_h;
   }
 
   Precission incr_n(Precission n, Precission va) const {
     Precission tau_n =
         1.1 + 4.6 * exp(-((-61 - va) / 54.3) * ((-61 - va) / 54.3));
-    Precission ninf = 1 / (1 + exp((-30 - v) / -17.4));
+    Precission ninf = 1 / (1 + exp((-30 - va) / -17.4));
     return (ninf - n) / tau_n;
   }
 
@@ -120,20 +119,29 @@ class VavoulisModel : public NeuronBase<Precission> {
  public:
   struct ConstructorArgs {
     Precission params[n_parameters];
-  };
+    Precission variables[n_variables];
+
+      // m_variables[v] = -65.0;
+      // m_variables[va] = -65.0;
+      // m_variables[p] = 0.3527;
+      // m_variables[q] = 0.1668;
+      // m_variables[h] = 0.799;
+      // m_variables[n] = 0.118;
+      };
 
   VavoulisModel(ConstructorArgs const &args) {
     std::copy(args.params, args.params + n_parameters, m_parameters);
+    std::copy(args.variables, args.variables + n_variables, m_variables);
   }
 
   void eval(const Precission *const vars, Precission *const params,
             Precission *const incs) const {
-    incs[v] = -SYNAPTIC_INPUT - il(vars[v]) -
-              ix((type)params[t], vars[v], vars[p], vars[q]) -
-              iec(vars[v], vars[va], vars[g_ecs]);
+    incs[v] = (-SYNAPTIC_INPUT - il(vars[v]) -
+                  ix((type)params[t], vars[v], vars[p], vars[q]) -
+                  iec(vars[v], vars[va], vars[g_ecs]))/10;
 
-    incs[va] = -il(vars[v]) - inat(vars[va], vars[h]) - ik(vars[va], vars[n]) -
-               iec(vars[va], vars[v], vars[g_eca]);
+    incs[va] = (-il(vars[v]) - inat(vars[va], vars[h]) - ik(vars[va], vars[n]) -
+                   iec(vars[va], vars[v], vars[g_eca]))/10;
 
     incs[p] = incr_p((type)params[t], vars[p], vars[v], params[tau_p]);
     incs[q] = incr_q((type)params[t], vars[q], vars[v], params[tau_q]);
