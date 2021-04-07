@@ -53,22 +53,23 @@ class VavoulisModel : public NeuronBase<Precission> {
   Precission il(Precission v) const { return v + 67; }
 
   Precission ix(type t, Precission v, Precission p, Precission q) const {
-    // switch (t) {
-    //   case so:
-    //     return 0;
-    //     break;
-    //   case n1m:
-    //     return 200 * p * p * p * (v + 30);
-    //     break;
-    //   case n2v:
-    //     return 2 * p * p * p * q * (v - 55);
-    //     break;
-    //   case n3t:
+    switch (t) {
+      case so:
+        return 0;
+        break;
+      case n1m:
+        return 200 * p * p * p * (v + 30);
+        break;
+      case n2v:
+        return 2 * p * p * p * q * (v - 55);
+        break;
+      case n3t:
         return 3.27 * p * p * p * q * (v - 80);
-    //     break;
-    //   default:
-    //     return 0;
-    // }
+        break;
+      default:
+        return 0;
+         break;
+    }
   }
 
   // iecs(v,va,g_ecs) - ieca(va,v,g_eca)
@@ -100,18 +101,16 @@ class VavoulisModel : public NeuronBase<Precission> {
   }
 
   Precission incr_h(Precission h, Precission va) const {
-    Precission aux = (-61.3 - va) / 22.7;
     Precission tau_h =
-        1.1 + 7.2 * exp(-(aux * aux));
+        1.1 + 7.2 * exp(-(pow(((-61.3 - va)/22.7),2)));
     Precission hinf = 1 / (1 + exp((-55.2 - va) / -7.1));
     return (hinf - h) / tau_h;
   }
 
   Precission incr_n(Precission n, Precission va) const {
-    Precission aux = (-61 - va) / 54.3;
     Precission tau_n =
-        1.1 + 4.6 * exp(-(aux * aux));
-    Precission ninf = 1 / (1 + exp((-30 - va) / -17.4));
+        1.1 + 4.6 * exp(-(pow(((-61 - va)/54.3),2)));
+    Precission ninf = 1 / (1 + exp((-30 - va) / 17.4));
     return (ninf - n) / tau_n;
   }
 
@@ -122,13 +121,6 @@ class VavoulisModel : public NeuronBase<Precission> {
   struct ConstructorArgs {
     Precission params[n_parameters];
     Precission variables[n_variables];
-
-      // m_variables[v] = -65.0;
-      // m_variables[va] = -65.0;
-      // m_variables[p] = 0.3527;
-      // m_variables[q] = 0.1668;
-      // m_variables[h] = 0.799;
-      // m_variables[n] = 0.118;
       };
 
   VavoulisModel(ConstructorArgs const &args) {
@@ -142,7 +134,7 @@ class VavoulisModel : public NeuronBase<Precission> {
                   ix((type)params[n_type], vars[v], vars[p], vars[q]) -
                   iec(vars[v], vars[va], vars[g_ecs]))/10;
 
-    incs[va] = (-il(vars[v]) - inat(vars[va], vars[h]) - ik(vars[va], vars[n]) -
+    incs[va] = (-il(vars[va]) - inat(vars[va], vars[h]) - ik(vars[va], vars[n]) -
                    iec(vars[va], vars[v], vars[g_eca]))/10;
 
     incs[p] = incr_p((type)params[n_type], vars[p], vars[v], params[tau_p]);
