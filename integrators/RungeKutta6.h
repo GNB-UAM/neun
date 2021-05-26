@@ -41,7 +41,7 @@ $Id: RungeKutta6.h 184 2007-06-04 11:26:12Z elferdo $
 
 #include <algorithm>
 #include <boost/concept_check.hpp>
-#include "../concepts/SystemConcept.h"
+#include "SystemConcept.h"
 
 class RungeKutta6
 {
