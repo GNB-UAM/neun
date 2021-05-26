@@ -40,7 +40,7 @@ $Id: ElectricalSynapsis.h 184 2007-06-04 11:26:12Z elferdo $
 #include <iostream>
 #include <type_traits>
 
-#include "../concepts/NeuronConcept.h"
+#include "NeuronConcept.h"
 
 /**
  * @brief Implements a synapsis that balances current between two neurons
