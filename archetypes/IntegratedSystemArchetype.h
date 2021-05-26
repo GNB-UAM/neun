@@ -36,7 +36,7 @@ $Id: IntegratedSystemArchetype.h 184 2007-06-04 11:26:12Z elferdo $
 #define INTEGRATEDSYSTEMARCHETYPE_H_
 
 #include "SystemArchetype.h"
-#include "../include/IntegratedSystemWrapper.h"
+#include "IntegratedSystemWrapper.h"
 
 typedef IntegratedSystemWrapper<SystemArchetype> IntegratedSystemArchetype;
 
