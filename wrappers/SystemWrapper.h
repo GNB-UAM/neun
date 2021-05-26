@@ -37,7 +37,7 @@ $Id: SystemWrapper.h 184 2007-06-04 11:26:12Z elferdo $
 #define SYSTEMWRAPPER_H_
 
 #ifndef __AVR_ARCH__
-  #include "../concepts/ModelConcept.h"
+  #include "ModelConcept.h"
   #include <boost/concept_check.hpp>
   #include <algorithm>
 #else
