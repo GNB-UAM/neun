@@ -38,7 +38,7 @@ $Id: CurrentPulse.h 184 2007-06-04 11:26:12Z elferdo $
 
 #include <type_traits>
 
-#include "../concepts/NeuronConcept.h"
+#include "NeuronConcept.h"
 
 template <typename Neuron, typename precission = double>
 class CurrentPulse {
