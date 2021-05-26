@@ -39,14 +39,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/concept_check.hpp>
 #include <type_traits>
 
-#include "../concepts/IntegratorConcept.h"
-#include "../concepts/NeuronConcept.h"
+#include "IntegratorConcept.h"
+#include "NeuronConcept.h"
 #endif  //__AVR_ARCH__
 
-#include "../models/GradualActivationSynapsisModel.h"
-#include "../wrappers/IntegratedSystemWrapper.h"
-#include "../wrappers/SerializableWrapper.h"
-#include "../wrappers/SystemWrapper.h"
+#include "GradualActivationSynapsisModel.h"
+#include "IntegratedSystemWrapper.h"
+#include "SerializableWrapper.h"
+#include "SystemWrapper.h"
 
 /**
  * @brief Implements a synapsis based on (Destexhe et al. 1994)
