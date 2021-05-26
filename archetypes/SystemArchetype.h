@@ -36,7 +36,7 @@ $Id: SystemArchetype.h 184 2007-06-04 11:26:12Z elferdo $
 #define SYSTEMARCHETYPE_H_
 
 #include "ModelArchetype.h"
-#include "../wrappers/SystemWrapper.h"
+#include "SystemWrapper.h"
 
 
 typedef SystemWrapper<ModelArchetype> SystemArchetype;
