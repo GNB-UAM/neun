@@ -36,7 +36,7 @@ $Id$
 #include <boost/concept_check.hpp>
 #include <type_traits>
 
-#include "../concepts/NeuronConcept.h"
+#include "NeuronConcept.h"
 #include "DynamicalSystemWrapper.h"
 
 #ifndef DIFFERENTIALNEURONWRAPPER_H_
