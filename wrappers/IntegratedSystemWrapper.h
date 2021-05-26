@@ -39,8 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 
-#include "../concepts/IntegratableSystemConcept.h"
-#include "../concepts/IntegratorConcept.h"
+#include "IntegratableSystemConcept.h"
+#include "IntegratorConcept.h"
 #endif  //__AVR_ARCH__
 
 #include "DynamicalSystemWrapper.h"
