@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define VAVOULISMODEL_H_
 
 #include <cmath>
-#include "../include/NeuronBase.h"
+#include "NeuronBase.h"
 
 template <typename Precission>
 class VavoulisModel : public NeuronBase<Precission> {
