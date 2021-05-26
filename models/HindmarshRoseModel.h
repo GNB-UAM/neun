@@ -39,7 +39,7 @@ $Id: HindmarshRoseModel.h 203 2007-06-26 14:46:34Z elferdo $
 #include <algorithm>
 #include <cmath>
 
-#include "../include/NeuronBase.h"
+#include "NeuronBase.h"
 
 /**
  * (Hindmarsh and Rose, 1984)
