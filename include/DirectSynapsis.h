@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/concept_check.hpp>
 #include <type_traits>
 
-#include "../concepts/NeuronConcept.h"
+#include "NeuronConcept.h"
 
 /**
  * Implements a conductance based synapsis with threshold.
