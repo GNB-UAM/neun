@@ -35,7 +35,7 @@ $Id: RulkovMapModel.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef RULKOVMAPMODEL_H_
 #define RULKOVMAPMODEL_H_
 
-#include "../include/NeuronBase.h"
+#include "NeuronBase.h"
 
 /** (Nikolai F. Rulkov, 2002)
  * alpha = 3
