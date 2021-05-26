@@ -37,7 +37,7 @@ $Id: HodgkinHuxleyModel.h 184 2007-06-04 11:26:12Z elferdo $
 #define HODGKINHUXLEYMODEL_H_
 
 #include <cmath>
-#include "../include/NeuronBase.h"
+#include "NeuronBase.h"
 
 /**
  * (Hodgkin and Huxley, 1952)
