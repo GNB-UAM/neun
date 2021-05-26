@@ -35,7 +35,7 @@ $Id: IntegratorConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef INTEGRATORCONCEPT_H_
 #define INTEGRATORCONCEPT_H_
 
-#include "../archetypes/SystemArchetype.h"
+#include "SystemArchetype.h"
 
 /**
  * Jandepora
