@@ -37,7 +37,7 @@ $Id: MatsuokaModel.h 443 2010-03-04 01:17:25Z elferdo $
 
 #include <cmath>
 
-#include "../include/NeuronBase.h"
+#include "NeuronBase.h"
 
 /** (Matsuoka, 1985)
  *
