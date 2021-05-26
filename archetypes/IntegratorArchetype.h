@@ -36,7 +36,7 @@ $Id: IntegratorArchetype.h 184 2007-06-04 11:26:12Z elferdo $
 #define INTEGRATORARCHETYPE_H_
 
 #include <boost/concept_check.hpp>
-#include "../concepts/SystemConcept.h"
+#include "SystemConcept.h"
 
 struct IntegratorArchetype
 {
