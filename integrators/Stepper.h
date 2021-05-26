@@ -38,7 +38,7 @@ $Id: Stepper.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef __AVR_ARCH__
 #include <algorithm>
 #include <boost/concept_check.hpp>
-#include "../concepts/SystemConcept.h"
+#include "SystemConcept.h"
 #endif //__AVR_ARCH__
 
 
