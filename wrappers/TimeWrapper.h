@@ -36,7 +36,7 @@ $Id: TimeWrapper.h 337 2008-01-29 15:46:19Z elferdo $
 #define TIMEWRAPPER_H_
 
 #include <boost/concept_check.hpp>
-#include "../concepts/IntegratedSystemConcept.h"
+#include "IntegratedSystemConcept.h"
 
 template <typename IntegratedSystem>
 class TimeWrapper : public IntegratedSystem
