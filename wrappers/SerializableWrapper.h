@@ -38,7 +38,7 @@ $Id$
 #include <iostream>
 
 #include <boost/concept_check.hpp>
-#include "../concepts/SystemConcept.h"
+#include "SystemConcept.h"
 
 template <typename System>
 class SerializableWrapper : public System{
