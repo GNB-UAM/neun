@@ -63,6 +63,7 @@ Currently implemented integrators are:
 
 Currently implemented neuron models:
  - Hodgkin-Huxley conductance model (Hodgkin and Huxley, 1952)
+ - Hindmarsh–Rose model (Hindmarsh-Rose, 1984)
  - Izhikevich spiking neuron model (Izhikevich, 2003)
  - Simple oscillator
  - Matsuoka oscillator (Matsuoka, 1985)
