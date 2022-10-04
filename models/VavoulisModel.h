@@ -120,7 +120,6 @@ class VavoulisModel : public NeuronBase<Precission> {
  public:
   struct ConstructorArgs {
     Precission params[n_parameters];
-    Precission variables[n_variables];
       };
 
   VavoulisModel(ConstructorArgs const &args) {
