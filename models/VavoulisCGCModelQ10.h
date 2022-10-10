@@ -75,25 +75,30 @@ public:
 					diff_T,
 					n_parameters};
 
-	static const std::string var_names[]={"v", "h", "r", "a", "b", "n", "e", "f"};
+	static constexpr std::vector<std::string> VarNames()
+	{
+		return std::vector<std::string> {"v", "h", "r", "a", "b", "n", "e", "f"};
+	}
 
-	static const std::string param_names[]={"cm", "gamma_T",
-					"vna", "vk", "vca",
-					"Gnat", "Gnap", "Ga", "Gd", "Glva", "Ghva",
-					"Q10_Gnat", "Q10_Gnap", "Q10_Ga", "Q10_Gd", "Q10_Glva", "Q10_Ghva",
-					"vh_h", "vs_h", "tau0_h", "delta_h", "Q10_h",
-					"vh_r", "vs_r", "tau0_r", "delta_r", "Q10_r",
-					"vh_a", "vs_a", "tau0_a", "delta_a", "Q10_a",
-					"vh_b", "vs_b", "tau0_b", "delta_b", "Q10_b",
-					"vh_n", "vs_n", "tau0_n", "delta_n", "Q10_n",
-					"vh_e", "vs_e", "tau0_e", "delta_e", "Q10_e",
-					"vh_f", "vs_f", "tau0_f", "delta_f", "Q10_f",
-					"Vh_m", "Vs_m",
-					"Vh_c", "Vs_c", "Vh_d", "Vs_d",
-					"dv",
-					"Inat", "Inap", "Ia", "Id", "Ilva", "Ihva",
-					"diff_T"};
-
+	static constexpr std::vector<std::string> ParamNames()
+	{
+			return std::vector<std::string> {"cm", "gamma_T",
+						"vna", "vk", "vca",
+						"Gnat", "Gnap", "Ga", "Gd", "Glva", "Ghva",
+						"Q10_Gnat", "Q10_Gnap", "Q10_Ga", "Q10_Gd", "Q10_Glva", "Q10_Ghva",
+						"vh_h", "vs_h", "tau0_h", "delta_h", "Q10_h",
+						"vh_r", "vs_r", "tau0_r", "delta_r", "Q10_r",
+						"vh_a", "vs_a", "tau0_a", "delta_a", "Q10_a",
+						"vh_b", "vs_b", "tau0_b", "delta_b", "Q10_b",
+						"vh_n", "vs_n", "tau0_n", "delta_n", "Q10_n",
+						"vh_e", "vs_e", "tau0_e", "delta_e", "Q10_e",
+						"vh_f", "vs_f", "tau0_f", "delta_f", "Q10_f",
+						"Vh_m", "Vs_m",
+						"Vh_c", "Vs_c", "Vh_d", "Vs_d",
+						"dv",
+						"Inat", "Inap", "Ia", "Id", "Ilva", "Ihva",
+						"diff_T"};
+	}
 protected:
 
 	Precission x_inf(Precission v, Precission vh, Precission vs) const
