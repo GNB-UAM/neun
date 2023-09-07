@@ -154,7 +154,7 @@ protected:
 		if (q10 > 0)
 			return g * pow(q10,diff_T/10);
 		else
-			return 1;
+			return 1 * g;
 	}
 
 	Precission phi_q10(Precission q10, Precission diff_T) const
