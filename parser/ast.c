@@ -111,26 +111,54 @@ void write_vars()
 }
 
 
-// Function to generate the code
-void generate_code() {
-    printf("\n// Automatically generated code:\n");
-    write_headers(modelname);
-    write_vars();
+void write_protected(){
+    printf("    protected:\n");
 
     // Generate the function for each equation
     for (int i = 0; i < eq_count; i++) {
-        printf("    Precission %s() {\n", strtolower(equations[i].variable));
+        printf("    Precission %s(Precission v) const\n{\n", strtolower(equations[i].variable));
         printf("        return %s;\n", strtolower(equations[i].equation));
         printf("    }\n\n");
     }
 
 
-    printf( "#endif // %sMODEL_\n", strtoupper(modelname));
-    // Generate the main function to call the generated functions
-    printf("int main() {\n");
+}
+
+void write_constructor(){
+
+    printf("public:\n");
+
+    printf("    struct ConstructorArgs\n{\n");
+        
+    printf("    Precission params[n_parameters];\n};\n");
+    printf("     %sModel(ConstructorArgs const &args)\n{", modelname);
+    printf("        std::copy(args.params, args.params + n_parameters, m_parameters);\n}\n");
+
+}
+void write_eval(){
+    
+    printf("    void eval(const Precission * const vars, Precission * const params, Precission * const incs) const\n{");
+	
     for (int i = 0; i < eq_count; i++) {
-        printf("    %s();\n", equations[i].variable);
-    }
-    printf("    return 0;\n");
+        printf("        incs[%s] = %s\n", equations[i].variable, equations[i].equation);
+    
+    // incs[m] = alpha_m(vars[v]) * (1 - vars[m]) - beta_m(vars[v]) * vars[m];
+	// 	incs[h] = alpha_h(vars[v]) * (1 - vars[h]) - beta_h(vars[v]) * vars[h];
+	// 	incs[n] = alpha_n(vars[v]) * (1 - vars[n]) - beta_n(vars[v]) * vars[n];
+	// 	incs[v] = (SYNAPTIC_INPUT - params[gl] * (vars[v] - params[vl]) - params[gna] * pow(vars[m], 3) * vars[h] * (vars[v] - params[vna]) - params[gk] * pow(vars[n], 4) * (vars[v] - params[vk])) / params[cm];
+	}
     printf("}\n");
+
+}
+// Function to generate the code
+void generate_code() {
+    printf("\n// Automatically generated code:\n");
+    write_headers(modelname);
+    write_vars();
+    write_protected();
+    write_constructor();
+    write_eval();
+    
+
+    printf( "#endif // %sMODEL_\n", strtoupper(modelname));
 }
