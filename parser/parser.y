@@ -104,25 +104,44 @@ variable:
     | VARIABLE SUBINDEX L_CB INF R_CB {  
         asprintf(&$$, "%s_inf", $1); 
         printf("Subindex with infinity: %s\n", $$);
+        if (n_parameters < MAX_VARIABLES) {
+            parameters[n_parameters++] = strdup($$);  // Agrega al array
+        } else {
+            fprintf(stderr, "Error: Regular variables array is full.\n");
+        }
     }
     | VARIABLE SUBINDEX L_CB VARIABLE R_CB {  
         asprintf(&$$, "%s_%s", $1, $4); 
         printf("Subindex: %s\n", $$);
+        if (n_parameters < MAX_VARIABLES) {
+            parameters[n_parameters++] = strdup($$);  // Agrega al array
+        } else {
+            fprintf(stderr, "Error: Regular variables array is full.\n");
+        }
     }
     | VARIABLE  {
         $$ = strdup($1); 
         printf("Variable: %s\n", $$);
+        if (n_parameters < MAX_VARIABLES) {
+            parameters[n_parameters++] = strdup($$);  // Agrega al array
+        } else {
+            fprintf(stderr, "Error: Regular variables array is full.\n");
+        }
     }
     | NUMBER  {
         asprintf(&$$, "%f", $1); 
         printf("Number: %s\n", $$);
     }
     ;
-
 time_variable:
     FRAQ L_CB TIME_VARIABLE R_CB L_CB TIME_VARIABLE R_CB {
         if ($3 != NULL) {
             printf("Time Variable: %s\n", $3);
+            if (n_variables < MAX_VARIABLES) {
+                variables[n_variables++] = strdup($3);  // Agrega al array
+            } else {
+                fprintf(stderr, "Error: Time variables array is full.\n");
+            }
             $$ = $3; // Propaga el valor hacia arriba
         } else {
             fprintf(stderr, "Error: Null pointer in time_variable.\n");
@@ -132,7 +151,17 @@ time_variable:
     ;
 
 %%
+void print_variables() {
+    printf("Time Variables:\n");
+    for (int i = 0; i < n_variables; i++) {
+        printf("  %s\n", variables[i]);
+    }
 
+    printf("Regular Variables:\n");
+    for (int i = 0; i < n_parameters; i++) {
+        printf("  %s\n", parameters[i]);
+    }
+}
 /* Error function handler */
 void yyerror(const char *s) {
     fprintf(stderr, "Sintax error: %s\n", s);

@@ -8,6 +8,17 @@ int eq_count = 0;
 Equation equations[MAX_EQUATIONS];
 char modelname[] = "GenericName";
 
+
+
+char *variables[MAX_VARIABLES];  // Array para variables de tiempo
+int n_variables = 0;               // Contador de variables de tiempo
+
+char *parameters[MAX_VARIABLES];  // Array para variables regulares
+int n_parameters = 0;               // Contador de variables regulares
+
+
+
+
 char *strtolower(char *str)
 {
     unsigned char *mystr = (unsigned char *)str;
@@ -76,13 +87,27 @@ void write_vars()
     printf( "public:\n");
     printf( "    typedef Precission precission_t;\n\n");
 
-    printf( "    enum variable {v, h, m, n, n_variables};\n");
-    printf( "    enum parameter {cm, vna, vk, vl, gna, gk, gl, n_parameters};\n\n");
+    printf( "    enum variable {");
+    for (int i=0; i < n_variables; i++)
+    {
+        printf("%s, ", strtolower(variables[i]));
+    }
+    
+    printf("n_variables};\n");
+    
+    printf( "    enum parameter {");
+    for (int i=0; i < n_parameters; i++)
+    {
+        printf("%s, ", strtolower(parameters[i]));
+    }
+    
+    printf("n_parameters};\n\n");
+    
+
+    // printf( "    enum parameter {cm, vna, vk, vl, gna, gk, gl, n_parameters};\n\n");
 
     printf( "protected:\n");
     printf( "};\n\n");
-
-    printf( "#endif // HODGKINHUXLEYMODEL_H_\n");
 }
 
 
@@ -90,6 +115,7 @@ void write_vars()
 void generate_code() {
     printf("\n// Automatically generated code:\n");
     write_headers(modelname);
+    write_vars();
 
     // Generate the function for each equation
     for (int i = 0; i < eq_count; i++) {
@@ -98,6 +124,8 @@ void generate_code() {
         printf("    }\n\n");
     }
 
+
+    printf( "#endif // %sMODEL_\n", strtoupper(modelname));
     // Generate the main function to call the generated functions
     printf("int main() {\n");
     for (int i = 0; i < eq_count; i++) {
