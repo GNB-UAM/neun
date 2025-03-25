@@ -63,6 +63,11 @@ Finally, you wrapp the model and the numerical integrator to build an integrable
 typedef DifferentialNeuronWrapper<HHModel, Integrator> Neuron;
 ```
 
+You can manually compile your code from your project dir by running:
+```
+g++ -o mysimulation mysimulation.cpp -I/usr/local/Neun/0.3.2/
+````
+
 ### Integrators
 
 Currently implemented integrators are:
