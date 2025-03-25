@@ -38,6 +38,14 @@ USING ECLIPSE
 cmake -G"Eclipse CDT4 - Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug .. 
 -->
 
+
+Note that Makefile has been generated in build directory and after running:
+```
+make 
+```
+
+two executable files will be generated in build/examples, corresponding to basic.cpp and synapse.cpp
+
 ## Usage
 
 In order to perform any simulation first you need to define the numerical integrator you are going to use, e.g.:
