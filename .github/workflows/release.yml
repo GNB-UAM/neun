@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup CMake
-        uses: lukka/get-cmake@v4
+        uses: lukka/get-cmake@latest
 
       - name: Configure Project
         run: |
