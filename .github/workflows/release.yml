@@ -19,7 +19,7 @@ jobs:
       - name: Install Boost
         run: |
           sudo apt-get update
-          sudo apt-get install -y libboost-dev libboost-concept-dev
+          sudo apt-get install -y libboost-dev
           
       - name: Setup CMake
         uses: lukka/get-cmake@latest
