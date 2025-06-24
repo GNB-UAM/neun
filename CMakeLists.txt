@@ -50,8 +50,5 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "science")
 
 set(CPACK_GENERATOR "DEB")
 
-include(CPack)
-
-
 configure_file(neun.pc.in neun.pc @ONLY)
 install(FILES neun.pc DESTINATION pkgconfig)
