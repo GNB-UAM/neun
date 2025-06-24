@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG -std=c++11")
 
 set(PROJECT_VERSION ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}.${CMake_VERSION_PATCH})
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.15)
 
 include(FindPkgConfig)
 include(CPack)
