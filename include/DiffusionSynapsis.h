@@ -135,7 +135,7 @@ class DiffusionSynapsis
         m_steps(synapse.m_steps),
         System(synapse) {}
 
-  precission step(precission h) {
+  void step(precission h) {
     for (int i = 0; i < m_steps; ++i) {
       precission value = m_n1.get(m_n1_variable);
 

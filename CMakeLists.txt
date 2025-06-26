@@ -17,12 +17,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
 set(PROJECT_VERSION ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}.${CMake_VERSION_PATCH})
 
-# Maybe delete: include(FindPkgConfig)
-
-# Add include directories globally (for legacy reasons)
-include_directories(${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include)
-link_directories(${Boost_LIBRARY_DIRS})
-
 # Add subdirectories
 add_subdirectory(include)
 add_subdirectory(integrators)
@@ -34,6 +28,7 @@ add_subdirectory(models)
 add_subdirectory(wrappers)
 
 # Packaging
+include(CPack)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An efficient library to simulate neural networks in C++.")
 set(CPACK_PACKAGE_VENDOR "Grupo de Neurocomputación Biológica")
 set(CPACK_PACKAGE_CONTACT "angel.lareo@uam.es")
@@ -43,10 +38,8 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
-set(CPACK_DEBIAN_PACKAGE_SECTION "science")
+set(CPACK_DEBIAN_PACKAGE_SECTION "devel")
 set(CPACK_GENERATOR "DEB")
-
-include(CPack)
 
 configure_file(neun.pc.in neun.pc @ONLY)
 install(FILES neun.pc DESTINATION pkgconfig)
