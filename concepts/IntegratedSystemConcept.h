@@ -35,20 +35,19 @@ $Id: IntegratedSystemConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef INTEGRATEDSYSTEMCONCEPT_H_
 #define INTEGRATEDSYSTEMCONCEPT_H_
 
-#include <boost/concept_check.hpp>
+#include <concepts>
 #include "SystemConcept.h"
 
+/* class IntegratedSystemConcept
+ * 
+ * A model of this concept must meet the requirements for SystemConcept plus:
+ * 
+ * The following methods
+ * \li void step(precission_t step)
+ */
 template <typename IntegratedSystem>
-struct IntegratedSystemConcept {
-	BOOST_CLASS_REQUIRE(IntegratedSystem, ,SystemConcept);
-	
-	IntegratedSystem system;
-	typename IntegratedSystem::precission_t step;
-	
-	void constraints() {
-		system.step(step);
-	}
+concept IntegratedSystemConcept = SystemConcept<IntegratedSystem> && requires(IntegratedSystem system, typename IntegratedSystem::precission_t step) {
+    { system.step(step) };
 };
-
 
 #endif /*INTEGRATEDSYSTEMCONCEPT_H_*/

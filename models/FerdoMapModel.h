@@ -89,13 +89,6 @@ class FerdoMapModel {
   }
 
  public:
-  struct ConstructorArgs {
-    Precission params[n_parameters];
-  };
-
-  FerdoMapModel(ConstructorArgs const &args) : m_synaptic_input(0) {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
 
   void step(Precission h) {
     m_variables[x] = f(m_variables[x],

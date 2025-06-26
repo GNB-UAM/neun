@@ -35,14 +35,17 @@ $Id: TimeWrapper.h 337 2008-01-29 15:46:19Z elferdo $
 #ifndef TIMEWRAPPER_H_
 #define TIMEWRAPPER_H_
 
-#include <boost/concept_check.hpp>
+#include <concepts>
 #include "IntegratedSystemConcept.h"
 
 template <typename IntegratedSystem>
+concept TimeWrapperConcept = IntegratedSystemConcept<IntegratedSystem> 
+	&& requires(IntegratedSystem system, int substeps_per_cycle) {
+	{ system.step(std::declval<typename IntegratedSystem::precission_t>()) };
+	{ IntegratedSystem(system, substeps_per_cycle) };
+};
 class TimeWrapper : public IntegratedSystem
-{
-	BOOST_CLASS_REQUIRE(IntegratedSystem, , IntegratedSystemConcept);
-	
+{	
 	typedef typename IntegratedSystem::precission_t precission;
 	
 	int m_substeps_per_cycle;

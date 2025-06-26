@@ -35,11 +35,8 @@ $Id: Stepper.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef STEPPER_H_
 #define STEPPER_H_
 
-#ifndef __AVR_ARCH__
 #include <algorithm>
-#include <boost/concept_check.hpp>
 #include "SystemConcept.h"
-#endif //__AVR_ARCH__
 
 
 /**
@@ -54,9 +51,7 @@ public:
 	{
 		using namespace std;
 
-#ifndef __AVR_ARCH__
-		boost::function_requires<SystemConcept<TSystem> >();
-#endif //__AVR_ARCH__
+		static_assert(TSystem::n_variables > 0, "TSystem must have at least one variable");
 
 		typename TSystem::precission_t results[TSystem::n_variables];
 

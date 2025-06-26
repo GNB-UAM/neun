@@ -38,31 +38,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __AVR_ARCH__
 #include <type_traits>
 #endif  //__AVR_ARCH__
+
+#include "ModelBase.h"
+
+// Define a macro for the synaptic input to be used in models
+// SYNAPTIC_INPUT expands to NeuronBase<Precission>::m_synaptic_input
 #define SYNAPTIC_INPUT NeuronBase<Precission>::m_synaptic_input
 
 template <typename Precission>
-class NeuronBase {
-#ifndef __AVR_ARCH__
+class NeuronBase : public ModelBase<Precission> {
   static_assert(std::is_floating_point<Precission>::value);
-#endif  //__AVR_ARCH__
 
  protected:
   Precission m_synaptic_input;
 
  public:
+  typedef Precission precission_t;
+  
   NeuronBase() : m_synaptic_input(0) {}
 
-  void add_synaptic_input(Precission i) { m_synaptic_input += i; }
+  void add_synaptic_input(precission_t i) { m_synaptic_input += i; }
 
-  Precission get_synaptic_input() const { return m_synaptic_input; }
+  precission_t get_synaptic_input() const { return m_synaptic_input; }
 
   void reset_synaptic_input() { m_synaptic_input = 0; }
 
-  void restart() {}
+  void pre_step(precission_t h) {}
 
-  void pre_step(Precission h) {}
-
-  void post_step(Precission h) { m_synaptic_input = 0; }
+  void post_step(precission_t h) { reset_synaptic_input(); }
 };
 
 #endif /*NEURONBASE_H_*/

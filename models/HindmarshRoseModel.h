@@ -56,19 +56,11 @@ class HindmarshRoseModel : public NeuronBase<Precission> {
   enum variable { x, y, z, n_variables };
   enum parameter { e, mu, S, n_parameters };
 
-  struct ConstructorArgs {
-    Precission params[n_parameters];
-  };
-
  protected:
   Precission m_variables[n_variables];
   Precission m_parameters[n_parameters];
 
  public:
-  HindmarshRoseModel(ConstructorArgs const &args) {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
-
   void eval(const Precission *const vars, Precission *const params,
             Precission *const incs) const {
     incs[x] = vars[y] + 3.0 * vars[x] * vars[x] - vars[x] * vars[x] * vars[x] -

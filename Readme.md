@@ -22,10 +22,6 @@ Install it using:
 ```
 make install
 ```
-Warning: in Linux you might need to install boost
-```
-sudo apt install libboost-all-dev
-```
 
 The library will install a pkg-config file called "neun.pc" under
 ${prefix}/${project_name}/${project_version}/pkgconfig. If you want

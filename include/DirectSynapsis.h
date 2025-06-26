@@ -35,7 +35,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef DIRECTSYNAPSIS_H_
 #define DIRECTSYNAPSIS_H_
 
-#include <boost/concept_check.hpp>
 #include <type_traits>
 
 #include "NeuronConcept.h"
@@ -45,9 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 template <typename TNode1, typename TNode2, typename precission = double>
+requires NeuronConcept<TNode1> && NeuronConcept<TNode2>
 class DirectSynapsis {
-  BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
-  BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
   static_assert(std::is_floating_point<precission>::value);
 
  public:

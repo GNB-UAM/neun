@@ -33,14 +33,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 $Id$
 *************************************************************/
 
-#include <boost/concept_check.hpp>
+#ifndef DIFFERENTIALDYNAMICALSYSTEMWRAPPER_H_
+#define DIFFERENTIALDYNAMICALSYSTEMWRAPPER_H_
+
 #include <type_traits>
 
-#include "NeuronConcept.h"
+#include "DynamicalSystemConcept.h"
 #include "DynamicalSystemWrapper.h"
-
-#ifndef DIFFERENTIALNEURONWRAPPER_H_
-#define DIFFERENTIALNEURONWRAPPER_H_
 
 /**
  * \brief Adds common code to a model class.
@@ -50,26 +49,28 @@ $Id$
  */
 
 template <typename Wrapee, typename Integrator>
-class DifferentialNeuronWrapper : public DynamicalSystemWrapper<Wrapee> {
-  //	BOOST_CLASS_REQUIRE(Derived, , NeuronConcept);
+requires DynamicalSystemConcept<Wrapee>
+class DifferentialDynamicalSystemWrapper : public DynamicalSystemWrapper<Wrapee> {
+  static_assert(std::is_floating_point<typename Wrapee::precission_t>::value,
+                "Wrapee must have a floating point precission_t type");
+
+  static_assert(DynamicalSystemConcept<Wrapee>, "Wrapee must satisfy DynamicalSystemConcept");
+
+  static_assert(IntegratorConcept<Integrator, Wrapee>,
+                "Integrator must satisfy IntegratorConcept");
+
  public:
   typedef typename Wrapee::precission_t precission_t;
   typedef typename Wrapee::variable variable;
   typedef typename Wrapee::parameter parameter;
   typedef typename Wrapee::ConstructorArgs ConstructorArgs;
 
-  DifferentialNeuronWrapper(ConstructorArgs &args)
+  DifferentialDynamicalSystemWrapper(ConstructorArgs &args)
       : DynamicalSystemWrapper<Wrapee>(args) {}
 
   void step(precission_t h) {
     Integrator::step(*this, h, Wrapee::m_variables, Wrapee::m_parameters);
-
-    Wrapee::m_synaptic_input = 0;
   }
-
-  void add_synaptic_input(precission_t i) { Wrapee::m_synaptic_input += i; }
-
-  precission_t get_synaptic_input() const { return Wrapee::m_synaptic_input; }
 };
 
-#endif /*DIFFERENTIALNEURONWRAPPER_H_*/
+#endif /*DIFFERENTIALDYNAMICALSYSTEMWRAPPER_H_*/

@@ -35,28 +35,7 @@ $Id: DynamicalSystemConcept.h,v 1.3.2.2 2006/11/28 17:10:04 elferdo Exp $
 #ifndef DYNAMICALSYSTEMCONCEPT_H_
 #define DYNAMICALSYSTEMCONCEPT_H_
 
-template <typename DynamicalSystem>
-struct DynamicalSystemConcept {
-	
-	typename DynamicalSystem::variable v;
-	typename DynamicalSystem::parameter p;
-	typename DynamicalSystem::precission_t value;
-	
-	DynamicalSystem system;
-	const DynamicalSystem const_system;
-	
-	int n_variables, n_parameters;
-	
-	void constraints() {
-		value = const_system.get(v);
-		value = const_system.get(p);
-		
-		system.set(v, value);
-		system.set(p, value);
-		
-		system.step(value);
-	}
-};
+#include <concepts>
 
 /**
  * \class DynamicalSystemConcept
@@ -75,10 +54,27 @@ struct DynamicalSystemConcept {
  * \li n_parameters
  * 
  * And the following methods
- * \li precission_t get_variable(variable) const
- * \li precission_t get_parameter(parameter) const
- * \li void set_variable(variable, precission_t)
- * \li void set_parameter(parameter, precission_t)
+ * \li precission_t get(variable) const
+ * \li precission_t get(parameter) const
+ * \li void set(variable, precission_t)
+ * \li void set(parameter, precission_t)
  * \li void step(precission_t)
  */
+template <typename DynamicalSystem>
+concept DynamicalSystemConcept = requires(
+    DynamicalSystem system,
+    const DynamicalSystem const_system,
+    typename DynamicalSystem::variable v,
+    typename DynamicalSystem::parameter p,
+    typename DynamicalSystem::precission_t value
+) {
+    { const_system.get(v) } -> std::convertible_to<typename DynamicalSystem::precission_t>;
+    { const_system.get(p) } -> std::convertible_to<typename DynamicalSystem::precission_t>;
+    { system.set(v, value) };
+    { system.set(p, value) };
+    { DynamicalSystem::n_variables } -> std::convertible_to<int>;
+    { DynamicalSystem::n_parameters } -> std::convertible_to<int>;
+};
+
+
 #endif /*DYNAMICALSYSTEMCONCEPT_H_*/

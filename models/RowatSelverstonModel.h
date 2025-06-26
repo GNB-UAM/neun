@@ -56,25 +56,12 @@ class RowatSelverstonModel {
   enum variable { v = 0, q = 1, n_variables };
   enum parameter { tm, sf, ts, ss, af, es, n_parameters };
 
-  struct ConstructorArgs {
-    Precission params[n_parameters];
-  };
-
- protected:
-  Precission m_variables[n_variables];
-  Precission m_parameters[n_parameters];
-  Precission m_synaptic_input;
-
  public:
-  RowatSelverstonModel(ConstructorArgs const &args) : m_synaptic_input(0) {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
-
   void eval(const Precission *const vars, Precission *const incs) const {
     incs[v] = -(vars[v] -
                 m_parameters[af] *
                     tanh((m_parameters[sf] / m_parameters[af]) * vars[v]) +
-                vars[q] - m_synaptic_input) /
+                vars[q] - SYNAPTIC_INPUT) /
               m_parameters[tm];
     incs[q] = (-vars[q] + m_parameters[ss] * (vars[v] - m_parameters[es])) /
               m_parameters[ts];
