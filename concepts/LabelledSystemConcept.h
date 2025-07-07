@@ -36,22 +36,20 @@ $Id: LabelledSystemConcept.h,v 1.1.2.2 2006/10/17 17:25:51 elferdo Exp $
 #define LABELLEDSYSTEMCONCEPT_H_
 
 #include <string>
+#include <concepts>
 
+/**
+ * \class LabelledSystemConcept
+ *
+ * A model of this concept must meet the requirements for SystemConcept plus:
+ * The following methods
+ * \li std::string get_variable_label(variable) const
+ * \li std::string get_parameter_label(parameter) const
+ */
 template <typename System>
-struct LabelledSystemConcept
-{
-	const System s;
-	
-	typename System::variable v;
-	typename System::parameter p;
-	
-	std::string label;
-	
-	void constraints()
-	{
-		label = s.get_variable_label(v);
-		label = s.get_parameter_label(p);
-	}
+concept LabelledSystemConcept = requires(const System s, typename System::variable v, typename System::parameter p) {
+    { s.get_variable_label(v) } -> std::convertible_to<std::string>;
+    { s.get_parameter_label(p) } -> std::convertible_to<std::string>;
 };
 
 #endif /*LABELLEDSYSTEMCONCEPT_H_*/

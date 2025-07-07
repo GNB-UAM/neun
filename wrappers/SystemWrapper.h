@@ -38,7 +38,6 @@ $Id: SystemWrapper.h 184 2007-06-04 11:26:12Z elferdo $
 
 #ifndef __AVR_ARCH__
   #include "ModelConcept.h"
-  #include <boost/concept_check.hpp>
   #include <algorithm>
 #else
   #include "../include/algorithm.h"
@@ -52,11 +51,9 @@ $Id: SystemWrapper.h 184 2007-06-04 11:26:12Z elferdo $
  */
 
 template <typename Model>
+requires ModelConcept<Model>
 class SystemWrapper : public Model
 {
-#ifndef __AVR_ARCH__
-	BOOST_CLASS_REQUIRE(Model, , ModelConcept);
-#endif //__AVR_ARCH__
 
 protected:
 
@@ -68,26 +65,18 @@ public:
 	typedef typename Model::precission_t precission_t;
 	typedef typename Model::variable variable;
 	typedef typename Model::parameter parameter;
-//	typedef typename Model::ConstructorArgs ConstructorArgs;
-
-	class ConstructorArgs
+	
+	struct ConstructorArgs
 	{
-	public:
 		precission_t params[Model::n_parameters];
-
-	    precission_t &operator[](parameter p)
-	    {
-	    	return params[p];
-	    }
 	};
 
-
-	SystemWrapper(ConstructorArgs const &args)
+	SystemWrapper(ConstructorArgs const &args) : Model()
 	{
 		std::copy(args.params, args.params + Model::n_parameters, m_parameters);
 	}
 
-	SystemWrapper(ConstructorArgs const &&args)
+	SystemWrapper(ConstructorArgs const &&args) : Model()
 	{
 		std::copy(args.params, args.params + Model::n_parameters, m_parameters);
 	}

@@ -35,10 +35,7 @@ $Id: Euler.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef EULER_H_
 #define EULER_H_
 
-#ifndef __AVR_ARCH__
-#include <boost/concept_check.hpp>
 #include "SystemConcept.h"
-#endif //__AVR_ARCH__
 
 
 class Euler
@@ -49,9 +46,7 @@ public:
 	{
 		using namespace std;
 
-#ifndef __AVR_ARCH__
-		boost::function_requires<SystemConcept<TSystem> >();
-#endif //__AVR_ARCH__
+		static_assert(SystemConcept<TSystem>, "TSystem must satisfy SystemConcept");
 
 		typename TSystem::precission_t results[TSystem::n_variables];
 

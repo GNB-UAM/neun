@@ -37,8 +37,8 @@ $Id: SigmoidalDirectSynapsis.h 184 2007-06-04 11:26:12Z elferdo $
 #define SIGMOIDALDIRECTSYNAPSIS_H_
 
 #ifndef __AVR_ARCH__
-#include <boost/concept_check.hpp>
 #include <type_traits>
+#include <concepts>
 
 #include "../concepts/NeuronConcept.h"
 #endif  //__AVR_ARCH__
@@ -48,10 +48,9 @@ $Id: SigmoidalDirectSynapsis.h 184 2007-06-04 11:26:12Z elferdo $
  */
 
 template <typename TNode1, typename TNode2, typename precission = double>
+requires NeuronConcept<TNode1> && NeuronConcept<TNode2>
 class SigmoidalDirectSynapsis {
 #ifndef __AVR_ARCH__
-  BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
-  BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
   static_assert(std::is_floating_point<precission>::value);
 #endif  //__AVR_ARCH__
 

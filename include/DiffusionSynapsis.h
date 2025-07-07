@@ -36,7 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define DIFFUSIONSYNAPSIS_H_
 
 #ifndef __AVR_ARCH__
-#include <boost/concept_check.hpp>
 #include <type_traits>
 
 #include "IntegratorConcept.h"
@@ -53,14 +52,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 template <typename TNode1, typename TNode2, typename TIntegrator,
           typename precission = double>
+requires NeuronConcept<TNode1> && NeuronConcept<TNode2> &&
+    IntegratorConcept<TIntegrator>
 class DiffusionSynapsis
     : public SerializableWrapper<
           SystemWrapper<DiffusionSynapsisModel<precission> > > {
  private:
 #ifndef __AVR_ARCH__
-  BOOST_CLASS_REQUIRE(TNode1, , NeuronConcept);
-  BOOST_CLASS_REQUIRE(TNode2, , NeuronConcept);
-  BOOST_CLASS_REQUIRE(TIntegrator, , IntegratorConcept);
   static_assert(std::is_floating_point<precission>::value);
 #endif  //__AVR_ARCH__
 
@@ -137,7 +135,7 @@ class DiffusionSynapsis
         m_steps(synapse.m_steps),
         System(synapse) {}
 
-  precission step(precission h) {
+  void step(precission h) {
     for (int i = 0; i < m_steps; ++i) {
       precission value = m_n1.get(m_n1_variable);
 

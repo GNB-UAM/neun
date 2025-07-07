@@ -1,8 +1,6 @@
 # Neun
 
-![Boost v1.45 dependency](https://img.shields.io/badge/boost-v1.45-blue?style=flat-square)
 ![CMake v2.8 dependency](https://img.shields.io/badge/cmake-v2.8-blue?style=flat-square)
-![Build Status](https://img.shields.io/travis/angellareo/neun/master.svg?style=flat-square)
 
 A library for the simulation of dynamical systems, aimed to model neural
 networks with high performance. It is written in an object oriented fashion
@@ -34,6 +32,14 @@ USING ECLIPSE
 cmake -G"Eclipse CDT4 - Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug .. 
 -->
 
+
+Note that Makefile has been generated in build directory and after running:
+```
+make 
+```
+
+two executable files will be generated in build/examples, corresponding to basic.cpp and synapse.cpp
+
 ## Usage
 
 In order to perform any simulation first you need to define the numerical integrator you are going to use, e.g.:
@@ -50,6 +56,11 @@ Finally, you wrapp the model and the numerical integrator to build an integrable
 ```
 typedef DifferentialNeuronWrapper<HHModel, Integrator> Neuron;
 ```
+
+You can manually compile your code from your project dir by running:
+```
+g++ -o mysimulation mysimulation.cpp -I/usr/local/Neun/0.3.2/
+````
 
 ### Integrators
 

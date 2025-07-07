@@ -35,10 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <DifferentialNeuronWrapper.h>
 #include <ElectricalSynapsis.h>
 #include <HodgkinHuxleyModel.h>
+#include <SystemWrapper.h>
 #include <RungeKutta4.h>
+#include <iostream>
 
 typedef RungeKutta4 Integrator;
-typedef DifferentialNeuronWrapper<HodgkinHuxleyModel<double>, Integrator> HH;
+typedef DifferentialNeuronWrapper<SystemWrapper<HodgkinHuxleyModel<double>>, Integrator> HH;
 typedef ElectricalSynapsis<HH, HH> Synapsis;
 
 int main(int argc, char **argv) {
@@ -78,8 +80,8 @@ int main(int argc, char **argv) {
     h1.step(step);
     h2.step(step);
 
-    printf("%f %f %f %f\n", time, h1.get(HH::v), h2.get(HH::v),
-           s.get(Synapsis::i1));
+    std::cout << time << " " << h1.get(HH::v) << " " << h2.get(HH::v) 
+              << " " << s.get(Synapsis::i1) << std::endl;
   }
 
   return 0;

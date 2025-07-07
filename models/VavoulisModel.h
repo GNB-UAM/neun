@@ -114,14 +114,7 @@ class VavoulisModel : public NeuronBase<Precission> {
     return (ninf - n) / tau_n;
   }
 
-  Precission m_variables[n_variables];
-  Precission m_parameters[n_parameters];
-
  public:
-  struct ConstructorArgs {
-    Precission params[n_parameters];
-      };
-
   VavoulisModel(ConstructorArgs const &args) {
     std::copy(args.params, args.params + n_parameters, m_parameters);
     std::copy(args.variables, args.variables + n_variables, m_variables);

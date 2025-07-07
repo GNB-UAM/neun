@@ -35,36 +35,8 @@ $Id: SystemConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef SYSTEMCONCEPT_H_
 #define SYSTEMCONCEPT_H_
 
-#include <boost/concept_check.hpp>
-
+#include <concepts>
 #include "ModelConcept.h"
-
-template <typename System>
-struct SystemConcept {
-  BOOST_CLASS_REQUIRE(System, , ModelConcept);
-
-  typename System::precission_t value;
-  typename System::variable v;
-  typename System::parameter p;
-
-  System system;
-  const System const_system;
-
-  int n_variables, n_parameters;
-
-  void constraints() {
-    //		typename System::ConstructorArgs args;
-    //		args[p] = value;
-
-    //		System csystem(args);
-
-    value = const_system.get(v);
-    value = const_system.get(p);
-
-    system.set(v, value);
-    system.set(p, value);
-  }
-};
 
 /**
  * \class SystemConcept
@@ -89,4 +61,21 @@ struct SystemConcept {
  * \li void set(parameter, precission_t)
  * \li void step(precission_t)
  */
+template <typename Wrapee>
+concept SystemConcept = ModelConcept<Wrapee> && requires(
+  Wrapee wrapee,
+  const Wrapee const_wrapee,
+  typename Wrapee::variable v,
+  typename Wrapee::parameter p,
+  typename Wrapee::precission_t value
+) {
+  { const_wrapee.get(v) } -> std::convertible_to<typename Wrapee::precission_t>;
+  { const_wrapee.get(p) } -> std::convertible_to<typename Wrapee::precission_t>;
+  { wrapee.set(v, value) };
+  { wrapee.set(p, value) };
+  { Wrapee::n_variables } -> std::convertible_to<int>;
+  { Wrapee::n_parameters } -> std::convertible_to<int>;
+};
+
+
 #endif /*DYNAMICALSYSTEMCONCEPT_H_*/

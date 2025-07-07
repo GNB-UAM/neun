@@ -35,6 +35,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef DYNAMICALSYSTEMWRAPPER_H_
 #define DYNAMICALSYSTEMWRAPPER_H_
 
+#include<SystemConcept.h>
+
 /**
  * \brief Adds common code to a model class.
  * \todo Check concepts
@@ -42,8 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 template <typename Wrapee>
+requires SystemConcept<Wrapee>
 class DynamicalSystemWrapper : public Wrapee {
-  //	BOOST_CLASS_REQUIRE(Derived, , NeuronConcept);
  public:
   typedef typename Wrapee::precission_t precission_t;
   typedef typename Wrapee::variable variable;

@@ -35,9 +35,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <DifferentialNeuronWrapper.h>
 #include <HodgkinHuxleyModel.h>
 #include <RungeKutta4.h>
+#include <SystemWrapper.h>
+#include <iostream>
 
 typedef RungeKutta4 Integrator;
-typedef DifferentialNeuronWrapper<HodgkinHuxleyModel<double>, Integrator>
+typedef DifferentialNeuronWrapper<SystemWrapper<HodgkinHuxleyModel<double>>, Integrator>
     Neuron;
 
 int main(int argc, char **argv) {
@@ -70,7 +72,7 @@ int main(int argc, char **argv) {
   for (double time = 0; time < simulation_time; time += step) {
     n.step(step);
 
-    printf("%f %f\n", time, n.get(Neuron::v));
+    std::cout << time << " " << n.get(Neuron::v) << std::endl;
   }
 
   return 0;

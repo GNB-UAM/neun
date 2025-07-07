@@ -6,3 +6,6 @@ target_link_libraries(basic)
 
 add_executable(synapsis synapsis.cpp)
 target_link_libraries(synapsis) 
+
+add_executable(test test.cpp)
+target_link_libraries(test) 

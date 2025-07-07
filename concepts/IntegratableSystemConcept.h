@@ -35,25 +35,29 @@ $Id: IntegratableSystemConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef INTEGRATABLESYSTEMCONCEPT_H_
 #define INTEGRATABLESYSTEMCONCEPT_H_
 
-#include <boost/concept_check.hpp>
+#include <concepts>
 #include "SystemConcept.h"
 
+/* \class IntegratableSystemConcept
+ * 
+ * A model of this concept must meet the requirements for SystemConcept plus:
+ * 
+ * The following methods
+ * \li void pre_step(precission_t h)
+ * \li void post_step(precission_t h)
+ * 
+ * The following static members
+ * \li precission_t* m_variables
+ * \li precission_t* m_parameters
+ */
 template <typename System>
-struct IntegratableSystemConcept : public System{
-	BOOST_CLASS_REQUIRE(System, ,SystemConcept);
-	
-	System system;
-
-	typename System::precission_t h;
-        typename System::precission_t *v;
-	
-	void constraints() {
-	  v = System::m_variables;
-	  v = System::m_parameters;
-
-		system.pre_step(h);
-		system.post_step(h);
-	}
+concept IntegratableSystemConcept = SystemConcept<System> && requires(System system, typename System::precission_t h) {
+    { system.pre_step(h) };
+    { system.post_step(h) };
+	// We should check atributes m_variables and m_parameters are present in System,
+	// but we cannot do it directly in a concept because they are private members.
+    // { System::m_variables } -> std::same_as<typename System::precission_t*>;
+    // { System::m_parameters } -> std::same_as<typename System::precission_t*>;
 };
 
 #endif /*INTEGRATABLESYSTEMCONCEPT_H_*/
