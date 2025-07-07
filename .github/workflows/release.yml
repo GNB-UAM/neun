@@ -1,0 +1,48 @@
+name: Release & Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+          
+      - name: Setup CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Configure Project
+        run: |
+          cmake -B build -S . \
+            -DBoost_DEBUG=ON \
+            -DBoost_INCLUDE_DIR=/usr/include
+
+      - name: Build and Package .deb
+        run: |
+          cmake --build build --target package
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            Automated release via CI.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets (.deb)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: build/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -35,24 +35,30 @@ $Id: NeuronConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef NEURONCONCEPT_H_
 #define NEURONCONCEPT_H_
 
-#include <boost/concept_check.hpp>
+#include <concepts>
 #include "SystemConcept.h"
 
+/*
+ * \class NeuronConcept
+ *
+ * A neuron is a system that has a synaptic input and can add it to its state.
+ *
+ * A model of this concept must meet the requirements for SystemConcept plus:
+ *
+ * The following methods
+ * \li void add_synaptic_input(precission_t value)
+ * \li precission_t get_synaptic_input() const
+ * \li void reset_synaptic_input()
+ */
 template <typename Neuron>
-struct NeuronConcept
-{
-	BOOST_CLASS_REQUIRE(Neuron, , SystemConcept);
-
-	typename Neuron::precission_t value;
-	const Neuron const_model;
-	Neuron model;
-
-	void constraints()
-	{
-		model.add_synaptic_input(value);
-		value = const_model.get_synaptic_input();
-		model.reset_synaptic_input();
-	}
-};
+concept NeuronConcept = SystemConcept<Neuron> && 
+  requires(Neuron model, const Neuron const_model, typename Neuron::precission_t value) {
+    { model.add_synaptic_input(value) };
+    { const_model.get_synaptic_input() } -> std::convertible_to<typename Neuron::precission_t>;
+    { model.reset_synaptic_input() };
+    // pre_step and post_step are optional for neurons
+    { model.pre_step(value) } -> std::same_as<void>;
+    { model.post_step(value) } -> std::same_as<void>;
+  };
 
 #endif /*NEURONCONCEPT_H_*/

@@ -169,18 +169,9 @@ protected:
 		return cm + cm * gamma_T * diff_T;
 	}
 
-	Precission m_variables[n_variables];
-	Precission m_parameters[n_parameters];
-
 
 
 public:
-
-  struct ConstructorArgs
-	{
-	    Precission params[n_parameters];
-   		Precission variables[n_variables];
-	};
 
   VavoulisCGCModelQ10(ConstructorArgs const &args)
   {

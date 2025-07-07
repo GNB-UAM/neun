@@ -29,16 +29,16 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-$Id: SystemArchetype.h 184 2007-06-04 11:26:12Z elferdo $
+$Id: DynamicalSystemArchetype.h,v 1.1.2.2 2006/11/28 17:10:04 elferdo Exp $
 *************************************************************/
 
-#ifndef SYSTEMARCHETYPE_H_
-#define SYSTEMARCHETYPE_H_
+#ifndef NEURONARCHETYPE_H_
+#define NEURONARCHETYPE_H_
 
-#include "ModelArchetype.h"
+#include "NeuronBase.h"
 #include "SystemWrapper.h"
 
 template <typename Precission>
-using SystemArchetype = SystemWrapper<ModelArchetype<Precission>>;
+using NeuronArchetype = SystemWrapper<NeuronBase<Precission>>;
 
-#endif /*SYSTEMARCHETYPE_H_*/
+#endif /*NEURONARCHETYPE_H_*/

@@ -52,34 +52,7 @@ class IzhikevichModel : public NeuronBase<Precission> {
   enum variable { v, u, n_variables };
   enum parameter { a, b, c, d, threshold, n_parameters };
 
-  struct ConstructorArgs {
-    Precission params[n_parameters];
-  };
-
- protected:
-  Precission m_variables[n_variables];
-  Precission m_parameters[n_parameters];
-
  public:
-  IzhikevichModel(ConstructorArgs const &args) {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-    m_variables[v] = -65;
-    m_variables[u] = m_parameters[b] * m_variables[v];
-  }
-
-  IzhikevichModel(ConstructorArgs const &&args) {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-    m_variables[v] = -65;
-    m_variables[u] = m_parameters[b] * m_variables[v];
-  }
-
-  void restart() {
-    m_variables[v] = -65;
-    m_variables[u] = m_parameters[b] * m_variables[v];
-  }
-
-  void pre_step(Precission h) {}
-
   void eval(const Precission *const vars, Precission *const params,
             Precission *const incs) const {
     incs[v] =
@@ -91,9 +64,9 @@ class IzhikevichModel : public NeuronBase<Precission> {
   }
 
   void post_step(Precission h) {
-    if (m_variables[v] > m_parameters[threshold]) {
-      m_variables[v] = m_parameters[c];
-      m_variables[u] += m_parameters[d];
+    if (this->get(v) >= this->get(threshold)) {
+      this->set(v, this->get(c));
+      this->set(u, this->get(u) + this->get(d));
     }
   }
 };

@@ -37,12 +37,11 @@ $Id$
 
 #include <iostream>
 
-#include <boost/concept_check.hpp>
 #include "SystemConcept.h"
 
 template <typename System>
+requires SystemConcept<System>
 class SerializableWrapper : public System{
-	BOOST_CLASS_REQUIRE(System, , SystemConcept);
 
 public:
 

@@ -35,15 +35,18 @@ $Id: IntegratorArchetype.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef INTEGRATORARCHETYPE_H_
 #define INTEGRATORARCHETYPE_H_
 
-#include <boost/concept_check.hpp>
 #include "SystemConcept.h"
 
-struct IntegratorArchetype
+class IntegratorArchetype
 {
-	template <typename System>
-	static void	step(typename System::precission_t t, typename System::precission_t h, System const &s, const typename System::precission_t *variables, const typename System::precission_t *parameters, typename System::precission_t *increments)
-	{
-		boost::function_requires<SystemConcept<System> >();
+public:
+  template <typename System>
+  static void step(
+      System& s,
+      typename System::precission_t h,
+      typename System::precission_t* const vars,
+      typename System::precission_t* const params)	{
+    static_assert(SystemConcept<System>, "System must satisfy SystemConcept");
 	}
 };
 

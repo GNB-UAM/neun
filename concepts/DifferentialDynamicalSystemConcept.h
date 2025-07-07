@@ -35,31 +35,28 @@ $Id: DifferentialDynamicalSystemConcept.h,v 1.1.2.2 2006/11/28 17:10:04 elferdo 
 #ifndef DIFFERENTIALDYNAMICALSYSTEMCONCEPT_H_
 #define DIFFERENTIALDYNAMICALSYSTEMCONCEPT_H_
 
-#include <boost/concept_check.hpp>
+#include <concepts>
 #include "DynamicalSystemConcept.h"
-
-template <typename DifferentialDynamicalSystem>
-struct DifferentialDynamicalSystemConcept {
-	BOOST_CLASS_REQUIRE(DifferentialDynamicalSystem, , DynamicalSystemConcept);
-	
-	typename DifferentialDynamicalSystem::precission_t variables[DifferentialDynamicalSystem::n_variables];
-	typename DifferentialDynamicalSystem::precission_t increments[DifferentialDynamicalSystem::n_variables];
-	typename DifferentialDynamicalSystem::precission_t value;
-	
-	const DifferentialDynamicalSystem const_system;
-		
-	void constraints() {
-		const_system.eval(variables, increments);
-	}
-};
+#include "IntegratorConcept.h"
 
 /**
  * \class DifferentialDynamicalSystemConcept
- * 
  * A model of this concept must meet the requirements for DynamicalSystemConcept plus:
- * 
  * The following method
- * \li void eval(precission_t [n_variables], precission_t [n_variables]) const
+ * \li void eval(precission_t * const variables, precission_t * const increments)
+ * This method must calculate the increments of the variables of the system
+ * given the current values of the variables.
+ * The increments must be stored in the increments array.
+*/
+template <typename DynamicalSystem, typename Integrator>
+concept DifferentialDynamicalSystemConcept =
+    requires(
+        DynamicalSystem system,
+        Integrator integrator,
+        typename DynamicalSystem::precission_t h
+    ) {
+        { system.step(h) };
+    } && DynamicalSystemConcept<DynamicalSystem>
+      && IntegratorConcept<Integrator, DynamicalSystem>;
 
- */
 #endif /*DIFFERENTIALDYNAMICALSYSTEMCONCEPT_H_*/

@@ -40,7 +40,6 @@ $Id: RungeKutta6.h 184 2007-06-04 11:26:12Z elferdo $
  */
 
 #include <algorithm>
-#include <boost/concept_check.hpp>
 #include "SystemConcept.h"
 
 class RungeKutta6
@@ -51,7 +50,7 @@ public:
 	{
 		using namespace std;
 		
-		boost::function_requires<SystemConcept<TSystem> >();		
+		static_assert(TSystem::n_variables > 0, "TSystem must have at least one variable");	
 		
 		typedef typename TSystem::precission_t vars_type[TSystem::n_variables];
 		

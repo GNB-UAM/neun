@@ -121,23 +121,7 @@ protected:
 		return ghva * pow(e,3) * f *(v - vca);
 	}
 
-
-	Precission m_variables[n_variables];
-	Precission m_parameters[n_parameters];
-
 public:
-
-  struct ConstructorArgs
-	{
-	    Precission params[n_parameters];
-   		Precission variables[n_variables];
-	};
-
-  VavoulisCGCModel(ConstructorArgs const &args)
-  {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
-
 	void eval(const Precission * const vars, Precission * const params, Precission * const incs) const
 	{
 		incs[h]=incr_x(vars[h], vars[v], params[vh_h], params[vs_h], params[tau0_h], params[delta_h]);
@@ -163,7 +147,6 @@ public:
 		params[Id] = id(vars[v], vars[n], params[Gd], params[vk]);
 		params[Ilva] = ilva(vars[v], params[Glva], params[vca], params[Vh_c], params[Vs_c], params[Vh_d], params[Vs_d]);
 		params[Ihva] = ihva(vars[v], vars[e], vars[f], params[Ghva], params[vca]);
-
 	}
 
 };
