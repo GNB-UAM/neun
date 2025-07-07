@@ -14,6 +14,7 @@ To build it, just type:
 ```
 mkdir build && cd build
 cmake ..
+make
 ```
 
 Install it using:
