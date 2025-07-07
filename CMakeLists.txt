@@ -15,8 +15,6 @@ endif()
 set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -O0 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
-set(PROJECT_VERSION ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}.${CMake_VERSION_PATCH})
-
 # Add subdirectories
 add_subdirectory(include)
 add_subdirectory(integrators)
