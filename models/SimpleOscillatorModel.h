@@ -50,23 +50,11 @@ class SimpleOscillatorModel {
   enum variable { x, y, n_variables };
   enum parameter { a, m, x0, A, n_parameters };
 
- protected:
-  Precission m_variables[n_variables];
-  Precission m_parameters[n_parameters];
-  Precission m_synaptic_input;
-
  public:
-  struct ConstructorArgs {
-    Precission params[n_parameters];
-  };
-
-  SimpleOscillatorModel(ConstructorArgs const &args) : m_synaptic_input(0) {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
 
   void eval(const Precission *const vars, Precission *const incs) const {
     incs[x] = m_parameters[A] * pow(vars[x] - m_parameters[a], 2) * vars[x] -
-              vars[y] + m_synaptic_input;
+              vars[y] + SYNAPTIC_INPUT;
     incs[y] = m_parameters[m] * (vars[x] - m_parameters[x0]);
   }
 };

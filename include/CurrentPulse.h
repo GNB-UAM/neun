@@ -40,9 +40,11 @@ $Id: CurrentPulse.h 184 2007-06-04 11:26:12Z elferdo $
 
 #include "NeuronConcept.h"
 
+/* @brief implements a current pulse that can be used to stimulate a neuron.
+*/
 template <typename Neuron, typename precission = double>
+requires NeuronConcept<Neuron>
 class CurrentPulse {
-  BOOST_CLASS_REQUIRE(Neuron, , NeuronConcept);
   static_assert(std::is_floating_point<precission>::value);
 
  public:

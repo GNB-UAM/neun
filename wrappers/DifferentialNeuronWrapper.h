@@ -1,6 +1,7 @@
 /*************************************************************
 
 Copyright (c) 2006, Fernando Herrero Carrón
+              2020, Angel Lareo <angel.lareo@gmail.com>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -29,29 +30,36 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+$Id$
 *************************************************************/
+#ifndef DIFFERENTIALNEURONWRAPPER_H_
+#define DIFFERENTIALNEURONWRAPPER_H_
 
-#ifndef INTEGRATEDSYSTEMWRAPPER_H_
-#define INTEGRATEDSYSTEMWRAPPER_H_
 
-#ifndef __AVR_ARCH__
+#include <type_traits>
 
-#include "IntegratableSystemConcept.h"
-#include "IntegratorConcept.h"
-#endif  //__AVR_ARCH__
-
+#include "NeuronConcept.h"
 #include "DynamicalSystemWrapper.h"
+#include "DynamicalSystemConcept.h"
+#include "IntegratorConcept.h"
 
 /**
  * \brief Adds common code to a model class.
  * \todo Check concepts
- * \param System The system<model> class to extend.
+ * \param Wrapee The model class to extend.
  * \param Integrator The integrator class to use
  */
 
 template <typename Wrapee, typename Integrator>
-requires IntegratableSystemConcept<Wrapee> && IntegratorConcept<Integrator, Wrapee>
-class IntegratedSystemWrapper : public DynamicalSystemWrapper<Wrapee> {
+requires NeuronConcept<Wrapee>
+class DifferentialNeuronWrapper : public DynamicalSystemWrapper<Wrapee> {
+  static_assert(std::is_floating_point<typename Wrapee::precission_t>::value,
+                "Wrapee must have a floating point precission_t type");
+
+  static_assert(DynamicalSystemConcept<Wrapee>, "Wrapee must satisfy DynamicalSystemConcept");
+
+  static_assert(IntegratorConcept<Integrator, Wrapee>,
+                "Integrator must satisfy IntegratorConcept");
 
  public:
   typedef typename Wrapee::precission_t precission_t;
@@ -59,23 +67,13 @@ class IntegratedSystemWrapper : public DynamicalSystemWrapper<Wrapee> {
   typedef typename Wrapee::parameter parameter;
   typedef typename Wrapee::ConstructorArgs ConstructorArgs;
 
-  IntegratedSystemWrapper(ConstructorArgs &&args)
+  DifferentialNeuronWrapper(ConstructorArgs &args)
       : DynamicalSystemWrapper<Wrapee>(args) {}
-
-  IntegratedSystemWrapper(ConstructorArgs &args)
-      : DynamicalSystemWrapper<Wrapee>(args) {}
-
-  void restart() { Wrapee::restart(); }
 
   void step(precission_t h) {
-    /* Allow system specific step actions */
-
-    Wrapee::pre_step(h);
-
     Integrator::step(*this, h, Wrapee::m_variables, Wrapee::m_parameters);
-    Wrapee::m_synaptic_input = 0;
 
-    Wrapee::post_step(h);
+    Wrapee::m_synaptic_input = 0;
   }
 
   void add_synaptic_input(precission_t i) { Wrapee::m_synaptic_input += i; }
@@ -83,4 +81,4 @@ class IntegratedSystemWrapper : public DynamicalSystemWrapper<Wrapee> {
   precission_t get_synaptic_input() const { return Wrapee::m_synaptic_input; }
 };
 
-#endif /*INTEGRATEDSYSTEMWRAPPER_H_*/
+#endif /*DIFFERENTIALNEURONWRAPPER_H_*/

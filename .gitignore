@@ -8,3 +8,4 @@ CTestTestfile.cmake
 doc/
 bin/
 build/
+.vscode/

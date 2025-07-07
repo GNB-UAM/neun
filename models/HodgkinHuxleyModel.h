@@ -91,22 +91,13 @@ protected:
 		return 0.125 * exp((-v - 65) / 80);
 	}
 
-	Precission m_variables[n_variables];
-	Precission m_parameters[n_parameters];
-
 public:
 
-  struct ConstructorArgs
-	{
-	    Precission params[n_parameters];
-	};
+	//HodgkinHuxleyModel(){}
 
-  HodgkinHuxleyModel(ConstructorArgs const &args)
-  {
-    std::copy(args.params, args.params + n_parameters, m_parameters);
-  }
-
-	void eval(const Precission * const vars, Precission * const params, Precission * const incs) const
+	void eval(const Precission * const vars, 
+		Precission * const params, 
+		Precission * const incs) const
 	{
 		incs[m] = alpha_m(vars[v]) * (1 - vars[m]) - beta_m(vars[v]) * vars[m];
 		incs[h] = alpha_h(vars[v]) * (1 - vars[h]) - beta_h(vars[v]) * vars[h];

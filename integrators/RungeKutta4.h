@@ -35,24 +35,21 @@ $Id: RungeKutta4.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef RUNGEKUTTA4_H_
 #define RUNGEKUTTA4_H_
 
-#ifndef __AVR_ARCH__
-#include <boost/concept_check.hpp>
 #include "SystemConcept.h"
-#else
-#endif //__AVR_ARCH__
 
 
 class RungeKutta4
 {
 public:
 	template <typename TSystem>
-	static void step(TSystem &s, typename TSystem::precission_t h, typename TSystem::precission_t * const variables, typename TSystem::precission_t * const parameters)
+	static void step(TSystem &s, 
+		typename TSystem::precission_t h, 
+		typename TSystem::precission_t * const variables, 
+		typename TSystem::precission_t * const parameters)
 	{
 		using namespace std;
 
-#ifndef __AVR_ARCH__
-		boost::function_requires<SystemConcept<TSystem> >();
-#endif //__AVR_ARCH__
+		static_assert(SystemConcept<TSystem>, "TSystem must satisfy SystemConcept");
 
 		typedef typename TSystem::precission_t vars_type[TSystem::n_variables];
 

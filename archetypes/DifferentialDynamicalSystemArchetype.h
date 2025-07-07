@@ -35,17 +35,11 @@ $Id: DifferentialDynamicalSystemArchetype.h,v 1.1.2.2 2006/11/28 17:10:04 elferd
 #ifndef DIFFERENTIALDYNAMICALSYSTEMARCHETYPE_H_
 #define DIFFERENTIALDYNAMICALSYSTEMARCHETYPE_H_
 
-#include <boost/concept_archetype.hpp>
 #include "DynamicalSystemArchetype.h"
+#include "DifferentialDynamicalSystemWrapper.h"
+#include "IntegratorArchetype.h"
 
 template <typename Precission>
-struct DifferentialDynamicalSystemArchetype : public DynamicalSystemArchetype<Precission>
-{
-	typedef typename DynamicalSystemArchetype<Precission>::precission_t precission_t;
-	
-	void step(precission_t value)
-	{
-	}
-};
+using DifferentialDynamicalSystemArchetype = DifferentialDynamicalSystemWrapper<DynamicalSystemArchetype<Precission>, IntegratorArchetype>;
 
 #endif /*DIFFERENTIALDYNAMICALSYSTEMARCHETYPE_H_*/

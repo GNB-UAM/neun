@@ -35,19 +35,9 @@ $Id: ModelArchetype.h 184 2007-06-04 11:26:12Z elferdo $
 #ifndef MODELARCHETYPE_H_
 #define MODELARCHETYPE_H_
 
-class ModelArchetype
-{
-public:
-	//@todo Check Precission concept
-	enum variable {x, y, n_variables = 1};
-	enum parameter {alpha, beta, n_parameters = 1};
-	
-	typedef double precission_t;
-	
-		
-	void eval(precission_t * const vars, precission_t * const params, precission_t *incs) const
-	{
-	}
-};
+#include "ModelBase.h"
+
+template <typename Precission>
+using ModelArchetype = ModelBase<Precission>;
 
 #endif /*MODELARCHETYPE_H_*/

@@ -36,24 +36,25 @@ $Id: IntegratorConcept.h 184 2007-06-04 11:26:12Z elferdo $
 #define INTEGRATORCONCEPT_H_
 
 #include "SystemArchetype.h"
+#include <concepts>
 
-/**
- * Jandepora
- */
-template <typename Integrator, typename Precission = double>
-struct IntegratorConcept
-{
-	typedef SystemArchetype SA;
-	
-	typename SA::precission_t h;
-	typename SA::precission_t vars[SA::n_variables];
-	typename SA::precission_t params[SA::n_variables];
-	
-	SA s;
-	
-	void constraints(){
-		Integrator::template step<SA>(s, h, vars, params);
-	}
-};
+/* * \class IntegratorConcept
+  * * A model of this concept must meet the requirements for SystemArchetype plus:
+  * * The following static methods
+  * * \li void step(System &s, precission_t h, precission_t * const variables, precission_t * const parameters)
+  * * This method must calculate the next state of the system given the current values of the variables and parameters.
+  * * The method must be static, so it can be called without an instance of the Integrator.
+  * * The method must take a reference to the system, the time step, and pointers to the variables and parameters.
+  * * The method must not return anything, as it modifies the system's state directly.
+  */
+template <typename Integrator, typename System>
+concept IntegratorConcept = 
+    requires(
+            System& s, 
+            typename System::precission_t h,
+            typename System::precission_t* const vars, 
+            typename System::precission_t* const params) {
+      Integrator::template step<System>(s, h, vars, params); 
+    };
 
 #endif /*INTEGRATORCONCEPT_H_*/

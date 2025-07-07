@@ -35,46 +35,10 @@ $Id: DynamicalSystemArchetype.h,v 1.1.2.2 2006/11/28 17:10:04 elferdo Exp $
 #ifndef DYNAMICALSYSTEMARCHETYPE_H_
 #define DYNAMICALSYSTEMARCHETYPE_H_
 
-#include <boost/concept_archetype.hpp>
+#include "SystemArchetype.h"
+#include "DynamicalSystemWrapper.h"
 
-template <typename Precission, typename Base = boost::null_archetype<> >
-struct DynamicalSystemArchetype : public Base
-{
-	//@todo Check Precission concept
-	enum variable {n_variables = 1};
-	enum parameter {n_parameters = 1};
-	
-	typedef Precission precission_t;
-	
-	precission_t get(variable var) const
-	{
-		precission_t v(0);
-		
-		return v;
-	}
-	
-	void set(variable var, precission_t value)
-	{
-	}
-	
-	precission_t get(parameter par) const
-	{
-		precission_t p(0);
-		
-		return p;
-	}
-	
-	void set(parameter p, precission_t value)
-	{
-	}
-	
-	void eval(const precission_t vars[n_variables], precission_t incs[n_parameters]) const
-	{
-	}
-		
-	void step(precission_t value)
-	{
-	}
-};
+template <typename Precission>
+using DynamicalSystemArchetype = DynamicalSystemWrapper<SystemArchetype<Precission>>;
 
 #endif /*DYNAMICALSYSTEMARCHETYPE_H_*/
