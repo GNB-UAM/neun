@@ -1,8 +1,6 @@
 # Neun
 
-![Boost v1.45 dependency](https://img.shields.io/badge/boost-v1.45-blue?style=flat-square)
 ![CMake v2.8 dependency](https://img.shields.io/badge/cmake-v2.8-blue?style=flat-square)
-![Build Status](https://img.shields.io/travis/angellareo/neun/master.svg?style=flat-square)
 
 A library for the simulation of dynamical systems, aimed to model neural
 networks with high performance. It is written in an object oriented fashion
