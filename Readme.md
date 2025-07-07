@@ -52,14 +52,19 @@ Then, you define the neuron model and the precision of the simulation, e.g.:
 typedef HodgkinHuxleyModel<double> HHModel;
 ```
 
-Finally, you wrapp the model and the numerical integrator to build an integrable dynamical system, e.g.:
+Next step, you wrap the model as a system to get memory for actual params and vars, and add the getters/setters, e.g.:
 ```
-typedef DifferentialNeuronWrapper<HHModel, Integrator> Neuron;
+typedef SystemWrapper<HodgkinHuxleyModel<double>> HH
 ```
 
-You can manually compile your code from your project dir by running:
+Finally, add the numerical integrator to build an integrable dynamical system, e.g.:
 ```
-g++ -o mysimulation mysimulation.cpp -I/usr/local/Neun/0.3.2/
+typedef DifferentialNeuronWrapper<HH, Integrator> Neuron;
+```
+
+Now you can use Neuron variables in your own code. In order to manually compile that code, from your project dir just run:
+```
+g++ -o mysimulation mysimulation.cpp -I/usr/local/Neun/<version>
 ````
 
 ### Integrators
