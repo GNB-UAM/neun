@@ -48,14 +48,14 @@ equations:
 
 equation:
     BEGIN_EQUATION expression END_EQUATION {
-        printf("Equation detected: %s\n", $2);
+        // printf("Equation detected: %s\n", $2);
     }
     ;
 
 expression:
     variable EQUALSIGN math_expression  {
         if (eq_count < MAX_EQUATIONS && $1 != NULL && $3 != NULL) {
-            printf("Assigning: %s = %s\n", $1, $3); 
+            // printf("Assigning: %s = %s\n", $1, $3); 
             strcpy(equations[eq_count].variable, $1);
             snprintf(equations[eq_count].equation, sizeof(equations[eq_count].equation), "%s", $3);
             eq_count++;
@@ -68,42 +68,42 @@ expression:
 math_expression:
     math_expression SUM math_expression  {
         asprintf(&$$, "%s + %s", $1, $3);
-        printf("Sum: %s\n", $$);
+        // printf("Sum: %s\n", $$);
     }
     | math_expression MINUS math_expression  {
         asprintf(&$$, "%s - %s", $1, $3);
-        printf("Rest: %s\n", $$);
+        // printf("Rest: %s\n", $$);
     }
     | math_expression MULT math_expression  {
         asprintf(&$$, "%s * %s", $1, $3);
-        printf("Multiplication: %s\n", $$);
+        // printf("Multiplication: %s\n", $$);
     }
     | math_expression DIV math_expression  {
         asprintf(&$$, "%s / %s", $1, $3);
-        printf("Division: %s\n", $$);
+        // printf("Division: %s\n", $$);
     }
     | math_expression EXP math_expression  {
         asprintf(&$$, "%s^%s", $1, $3);
-        printf("Exponential: %s\n", $$);
+        // printf("Exponential: %s\n", $$);
     }
     | variable{
         $$ = strdup($1); 
-        printf("variable: %s\n", $$);
+        // printf("variable: %s\n", $$);
     }
     | L_BRK math_expression R_BRK  {
         asprintf(&$$, "(%s)", $2); 
-        printf("Brackets: %s\n", $$);
+        // printf("Brackets: %s\n", $$);
     }
     ;
 
 variable:
     time_variable {
         $$ = strdup($1); 
-        printf("Time Variable: %s\n", $$);
+        // printf("Time Variable: %s\n", $$);
     }
     | VARIABLE SUBINDEX L_CB INF R_CB {  
         asprintf(&$$, "%s_inf", $1); 
-        printf("Subindex with infinity: %s\n", $$);
+        // printf("Subindex with infinity: %s\n", $$);
         if (n_parameters < MAX_VARIABLES) {
             parameters[n_parameters++] = strdup($$);  // Agrega al array
         } else {
@@ -112,7 +112,7 @@ variable:
     }
     | VARIABLE SUBINDEX L_CB VARIABLE R_CB {  
         asprintf(&$$, "%s_%s", $1, $4); 
-        printf("Subindex: %s\n", $$);
+        // printf("Subindex: %s\n", $$);
         if (n_parameters < MAX_VARIABLES) {
             parameters[n_parameters++] = strdup($$);  // Agrega al array
         } else {
@@ -121,7 +121,7 @@ variable:
     }
     | VARIABLE  {
         $$ = strdup($1); 
-        printf("Variable: %s\n", $$);
+        // printf("Variable: %s\n", $$);
         if (n_parameters < MAX_VARIABLES) {
             parameters[n_parameters++] = strdup($$);  // Agrega al array
         } else {
@@ -130,13 +130,13 @@ variable:
     }
     | NUMBER  {
         asprintf(&$$, "%f", $1); 
-        printf("Number: %s\n", $$);
+        // printf("Number: %s\n", $$);
     }
     ;
 time_variable:
     FRAQ L_CB TIME_VARIABLE R_CB L_CB TIME_VARIABLE R_CB {
         if ($3 != NULL) {
-            printf("Time Variable: %s\n", $3);
+            // printf("Time Variable: %s\n", $3);
             if (n_variables < MAX_VARIABLES) {
                 variables[n_variables++] = strdup($3);  // Agrega al array
             } else {
@@ -152,12 +152,12 @@ time_variable:
 
 %%
 void print_variables() {
-    printf("Time Variables:\n");
+    // printf("Time Variables:\n");
     for (int i = 0; i < n_variables; i++) {
         printf("  %s\n", variables[i]);
     }
 
-    printf("Regular Variables:\n");
+    // printf("Regular Variables:\n");
     for (int i = 0; i < n_parameters; i++) {
         printf("  %s\n", parameters[i]);
     }
@@ -169,7 +169,7 @@ void yyerror(const char *s) {
 
 int yydebug = 1; // Debugging
 int main() {
-    printf("Please give me model equations in LaTeX:\n");
+    // printf("Please give me model equations in LaTeX:\n");
     yyparse();
     generate_code();  // Generate code from the parsed equations.
     return 0;
