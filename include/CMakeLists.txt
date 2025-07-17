@@ -7,4 +7,5 @@ install(FILES algorithm.h analysis.h
 	ModelBase.h
 	NeuronBase.h  
 	SigmoidalDirectSynapsis.h
+	ChemicalSynapsis.h
 	DESTINATION ${PROJECT_NAME}/${PROJECT_VERSION})
