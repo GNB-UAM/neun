@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Boost
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libboost-dev
           
       - name: Setup CMake
         uses: lukka/get-cmake@latest
@@ -36,11 +31,5 @@ jobs:
           name: Release ${{ github.ref_name }}
           body: |
             Automated release via CI.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload .deb asset
-        run: |
-          gh release upload "${{ env.TAG }}" build/*.deb --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

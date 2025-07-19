@@ -165,8 +165,6 @@ class DiffusionSynapsis
         (m_n2.get(m_n2_variable) - System::m_parameters[System::esyn]);
 
     m_n2.add_synaptic_input(System::m_variables[System::i]);
-
-    return System::m_variables[System::i];
   }
 };
 
